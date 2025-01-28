@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 28 jan. 2025 à 08:54
+-- Généré le : mar. 28 jan. 2025 à 12:49
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `image` varchar(255) NOT NULL,
   `date_de_création` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
+  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
+  UNIQUE KEY `nom` (`nom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -87,11 +88,13 @@ CREATE TABLE IF NOT EXISTS `menus` (
 DROP TABLE IF EXISTS `menus_favoris`;
 CREATE TABLE IF NOT EXISTS `menus_favoris` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
   `utilisateur_id` int NOT NULL,
   `menu_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `menu_id` (`menu_id`),
-  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
+  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
+  UNIQUE KEY `nom` (`nom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -112,7 +115,9 @@ CREATE TABLE IF NOT EXISTS `plats` (
   `date_de_création` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `menu_id` (`menu_id`),
-  UNIQUE KEY `categorie_id` (`categorie_id`) USING BTREE
+  UNIQUE KEY `categorie_id` (`categorie_id`) USING BTREE,
+  UNIQUE KEY `nom` (`nom`),
+  UNIQUE KEY `prix` (`prix`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -124,12 +129,17 @@ CREATE TABLE IF NOT EXISTS `plats` (
 DROP TABLE IF EXISTS `plats_favoris`;
 CREATE TABLE IF NOT EXISTS `plats_favoris` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  `description` text NOT NULL,
   `utilisateur_id` int NOT NULL,
   `plat_id` int NOT NULL,
+  `prix` decimal(10,2) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `plat_id` (`plat_id`),
-  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
+  UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
+  UNIQUE KEY `nom` (`nom`),
+  KEY `fk_plat_favoris_prix` (`prix`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -157,19 +167,24 @@ CREATE TABLE IF NOT EXISTS `plats_partagés` (
   `id` int NOT NULL AUTO_INCREMENT,
   `utilisateur_id` int NOT NULL,
   `plats_id` int NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `prix` decimal(10,2) NOT NULL,
+  `description` text NOT NULL,
   `partagé` tinyint(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`plats_id`),
   UNIQUE KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
+  UNIQUE KEY `nom` (`nom`),
+  UNIQUE KEY `prix` (`prix`),
   KEY `fk_plats_partagés_id_plats_id` (`plats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO plats_partagés (titre, ingredients, image, description)
+INSERT INTO plats_partagés (utilisateur_id, plats_id, nom, prix, description, partagé) 
 VALUES 
-('Spaghetti Carbonara', 'Pâtes, Crème, Lardons, Parmesan', 'images/spaghetti.jpg', 'Un classique de la cuisine italienne.'),
-('Salade César', 'Laitue, Poulet, Croûtons, Parmesan', 'images/salade.jpg', 'Une salade savoureuse et légère.'),
-('Tiramisu', 'Mascarpone, Café, Biscuits, Cacao', 'Un dessert italien riche et crémeux.');
+(1, 101, "Salade César", 12.50, "Une salade composée de laitue, poulet, croûtons et parmesan.", 1),
+(1, 102, "Gnocchis aux épinards", 15.00, "Des gnocchis frais accompagnés d'une sauce aux épinards crémeuse.", 1),
+(1, 103, "Pastel de Nata", 4.00, "Un dessert portugais classique à base de pâte feuilletée et de crème pâtissière.", 0);
+
 
 -- --------------------------------------------------------
 
@@ -186,7 +201,14 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_nom_utilisateur` (`nom_utilisateur`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`id`, `nom_utilisateur`, `mot_de_passe`, `email`) VALUES
+(1, 'Vladimir', '12345678', 'vladimir.gorbachev@laplateforme.io');
 
 --
 -- Contraintes pour les tables déchargées
@@ -209,6 +231,7 @@ ALTER TABLE `menus`
 --
 ALTER TABLE `menus_favoris`
   ADD CONSTRAINT `fk_menu_favoris_menus_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_menu_favoris_menus_nom` FOREIGN KEY (`nom`) REFERENCES `menus` (`nom`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `fk_menu_favoris_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
@@ -223,6 +246,8 @@ ALTER TABLE `plats`
 --
 ALTER TABLE `plats_favoris`
   ADD CONSTRAINT `fk_plat_favoris_plat_id` FOREIGN KEY (`plat_id`) REFERENCES `plats` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_plat_favoris_plat_nom` FOREIGN KEY (`nom`) REFERENCES `plats` (`nom`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `fk_plat_favoris_prix` FOREIGN KEY (`prix`) REFERENCES `plats` (`prix`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_plat_favoris_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
@@ -236,8 +261,10 @@ ALTER TABLE `plats_ingrédients`
 -- Contraintes pour la table `plats_partagés`
 --
 ALTER TABLE `plats_partagés`
+  ADD CONSTRAINT `fk_plats_favoris_plats_prix` FOREIGN KEY (`prix`) REFERENCES `plats` (`prix`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_plats_partagés_id_plats_id` FOREIGN KEY (`plats_id`) REFERENCES `plats` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_plats_partagés_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `Fk_plats_partagés_plats_noms` FOREIGN KEY (`nom`) REFERENCES `plats` (`nom`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_plats_partagés_user_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

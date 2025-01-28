@@ -1,3 +1,34 @@
+<?php
+// config.php : Configuration pour se connecter à la base de données
+$host = 'localhost'; // Adresse du serveur (ou localhost si local)
+$dbname = 'gestionnaire_de_menu'; // Nom de la base de données
+$username = 'root'; // Nom d'utilisateur
+$password = ''; // Mot de passe
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (exception $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+?>
+
+
+<?php
+
+try {
+    // Requête pour récupérer tous les plats partagés
+    $query = $pdo->query("SELECT * FROM plats_partagés");
+
+    // Récupération des données sous forme de tableau associatif
+    $platsPartages = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (exception $e) {
+    die("Erreur lors de la récupération des données : " . $e->getMessage());
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,8 +38,33 @@
     <link rel="stylesheet" href="recettes_de_chef.css">
 </head>
 <body>
+
     <div class="onglets">
-        
+        <?php foreach ($platsPartages as $plat): ?>
+            <div class="onglet">
+                <h2 class="title">
+                    <?php htmlspecialchars($plat['nom']); ?><br>
+                    <?php htmlspecialchars($plat['categorie']); ?><br>
+                    <?php htmlspecialchars(number_format($plat['prix'], 2)); ?>€/personne
+                </h2>
+                <figure>
+                    <ul class="ingredients">
+                        <?php
+                        // Convertir la liste des ingrédients (séparés par des virgules) en tableau
+                        $ingredients = explode(',', $plat['ingredients']);
+                        foreach ($ingredients as $ingredient):
+                        ?>
+                            <li><?= htmlspecialchars(trim($ingredient)); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <img src="<?= htmlspecialchars($plat['image']); ?>" alt="Photo de <?= htmlspecialchars($plat['nom']); ?>" class="photo">
+                    <figcaption class="description">
+                        <?= htmlspecialchars($plat['description']); ?>
+                    </figcaption>
+                </figure>
+            </div>
+        <?php endforeach; ?>
+            
         <div class="onglet">
             <h2 class="title">Salade César <br> Entrée <br> 4€/personne </h2>
             <figure>
