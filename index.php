@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once(__DIR__ . "/database.php")
+require_once(__DIR__ . "/base-donnees.php")
 ?>
 
 <!DOCTYPE html>
@@ -22,12 +22,10 @@ require_once(__DIR__ . "/database.php")
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <!-- Formulaire de connexion -->
-    <?php require_once(__DIR__ . "/login.php"); ?>
-
     <main>
         <h2>Welcome to My Website</h2>
         <img src="./images/ " alt=" " aria-label=" " class=" ">
+        <a href="./connexion.php">Connexion</a>
     </main>
 
     <!-- inclusion du bas de page du site -->

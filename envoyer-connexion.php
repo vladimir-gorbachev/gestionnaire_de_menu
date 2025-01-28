@@ -1,14 +1,14 @@
 <?php
 
 session_start();
-require_once(__DIR__ . "/database.php");
+require_once(__DIR__ . "/base-donnees.php");
 
 $postData = $_POST;
 
 // Validation du formulaire
 if (isset($postData["email"]) &&  isset($postData["mot_de_passe"])) {
     if (!filter_var($postData["email"], FILTER_VALIDATE_EMAIL)) {
-        $_SESSION["LOGIN_ERROR_MESSAGE"] = "Il faut un e-mail valide pour soumettre le formulaire.";
+        $_SESSION["LOGIN_ERROR_MESSAGE"] = "Il faut un email valide pour soumettre le formulaire.";
     } 
     else {
         foreach ($utilisateurs as $utilisateur) {

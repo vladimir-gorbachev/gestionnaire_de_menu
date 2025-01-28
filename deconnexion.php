@@ -13,5 +13,5 @@ if (isset($_SESSION["LAST_ACTIVITY"])) {
 
 session_unset();
 session_destroy();
-header("Location: login.php");
+header("Location: connexion.php");
 exit();

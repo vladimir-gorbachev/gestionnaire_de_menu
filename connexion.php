@@ -1,6 +1,6 @@
 <?php if (!isset($_SESSION["LOGGED_USER"])) : ?>
 
-    <form action="./submit_login.php" method="POST">
+    <form action="./envoyer-connexion.php" method="POST">
 
         <!-- si message d'erreur, on l'affiche -->
         <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
@@ -16,18 +16,18 @@
         
         <article class="form-connexion">
             <label for="email">Adresse e-mail:</label>
-            <input type="email" id="email" name="email" placeholder="Adresse e-mail">
+            <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
         </article>
 
         <article class="form-connexion">
             <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe">
+            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" required>
         </article>
 
         <input type="submit" value="Se connecter">
         <a href="#">Mot de passe oublié ?</a>
 
-        <a href="./creation.php">Pas encore de compte ? C'est par ici !</a>
+        <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
 
     </form>
 
