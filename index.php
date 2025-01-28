@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once(__DIR__ . "/database.php")
 ?>
 
@@ -15,9 +14,9 @@ require_once(__DIR__ . "/database.php")
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
-    <title>My Website</title>
+    <title>Plat'form</title>
 </head>
 <body>
     <!-- inclusion de l'entête du site -->

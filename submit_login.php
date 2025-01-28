@@ -6,15 +6,16 @@ require_once(__DIR__ . "/database.php");
 $postData = $_POST;
 
 // Validation du formulaire
-if (isset($postData["email"]) &&  isset($postData["mdp"])) {
+if (isset($postData["email"]) &&  isset($postData["mot_de_passe"])) {
     if (!filter_var($postData["email"], FILTER_VALIDATE_EMAIL)) {
         $_SESSION["LOGIN_ERROR_MESSAGE"] = "Il faut un e-mail valide pour soumettre le formulaire.";
     } 
     else {
         foreach ($utilisateurs as $utilisateur) {
-            if ($utilisateur["email"] === $postData["email"] && $utilisateur["mdp"] === $postData["mdp"]){
+            if ($utilisateur["email"] === $postData["email"] 
+            && $utilisateur["mot_de_passe"] === $postData["mot_de_passe"]) {
                 $_SESSION["LOGGED_USER"] = ["email" => $utilisateur["email"],
-                    "utilisateur_username" => $utilisateur["utilisateur_username"]];
+                    "nom_utilisateur" => $utilisateur["nom_utilisateur"]];
 
                 // Rediriger vers la page index.php
                 header("Location: index.php");
@@ -26,8 +27,7 @@ if (isset($postData["email"]) &&  isset($postData["mdp"])) {
             $_SESSION["LOGIN_ERROR_MESSAGE"] = sprintf(
                 "Les informations envoyées ne permettent pas de vous identifier : (%s/%s)",
                 $postData["email"],
-                strip_tags($postData["mdp"]));
+                strip_tags($postData["mot_de_passe"]));
         }
     }
 }
-?>

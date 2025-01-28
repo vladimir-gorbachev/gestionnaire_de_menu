@@ -1,6 +1,6 @@
 <?php if (!isset($_SESSION["LOGGED_USER"])) : ?>
 
-    <form action="submit_login.php" method="POST">
+    <form action="./submit_login.php" method="POST">
 
         <!-- si message d'erreur, on l'affiche -->
         <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
@@ -10,7 +10,7 @@
                 unset($_SESSION["LOGIN_ERROR_MESSAGE"]); ?>
             </article>
 
-<?php endif; ?>
+        <?php endif; ?>
     
         <h2>Connexion à votre compte</h2>
         
@@ -20,8 +20,8 @@
         </article>
 
         <article class="form-connexion">
-            <label for="mdp">Mot de passe:</label>
-            <input type="password" id="mdp" name="mdp" placeholder="Mot de passe">
+            <label for="mot_de_passe">Mot de passe:</label>
+            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe">
         </article>
 
         <input type="submit" value="Se connecter">
@@ -33,7 +33,11 @@
 
 <!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
 <?php else : ?>
-    <article class="alert alert-success" role="alert">
-        Bonjour <?php echo $_SESSION["LOGGED_USER"]["email"]; ?> !
-    </article>
+    <?php if (isset($_SESSION["LOGGED_USER"]["nom_utilisateur"])) : ?>
+
+        <article class="alert alert-success" role="alert">
+            Bonjour <?php echo $_SESSION["LOGGED_USER"]["nom_utilisateur"]; ?> !
+        </article>
+        
+    <?php endif; ?>
 <?php endif; ?>
