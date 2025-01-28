@@ -1,0 +1,12 @@
+:root {
+    --primary: #E6E6E6;
+    --secondary: #28373E;
+    --secondary-25: rgb(40, 55, 62, 0.25);
+    --tertiary: #DA5825;
+    --tertiary-25: rgb(218, 88, 37, 0.25);
+    --tertiary-35: rgb(218, 88, 37, 0.35);
+}
+
+/* Police d'écriture:
+font-family: "Playfair Display", serif;
+font-family: "Lato", serif; */
