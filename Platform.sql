@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `plats_partagés` (
   KEY `fk_plats_partagés_id_plats_id` (`plats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO plats_partagés (utilisateur_id, plats_id, nom, prix, description, partagé) 
+INSERT INTO plats_partagés (id,utilisateur_id, plats_id, nom, prix, description, partagé) 
 VALUES 
 (1, 101, "Salade César", 12.50, "Une salade composée de laitue, poulet, croûtons et parmesan.", 1),
 (1, 102, "Gnocchis aux épinards", 15.00, "Des gnocchis frais accompagnés d'une sauce aux épinards crémeuse.", 1),

@@ -1,12 +1,6 @@
 <?php
-// config.php : Configuration pour se connecter à la base de données
-$host = 'localhost'; // Adresse du serveur (ou localhost si local)
-$dbname = 'gestionnaire_de_menu'; // Nom de la base de données
-$username = 'root'; // Nom d'utilisateur
-$password = ''; // Mot de passe
-
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo = new PDO("mysql:host=localhost;dbname=Platform;charset=utf8", "root");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (exception $e) {
     die("Erreur de connexion : " . $e->getMessage());
@@ -38,32 +32,50 @@ try {
     <link rel="stylesheet" href="recettes_de_chef.css">
 </head>
 <body>
+    <pre>
+    <?php print_r($platsPartages); ?>
+    </pre>
+
+
 
     <div class="onglets">
-        <?php foreach ($platsPartages as $plat): ?>
-            <div class="onglet">
-                <h2 class="title">
-                    <?php htmlspecialchars($plat['nom']); ?><br>
-                    <?php htmlspecialchars($plat['categorie']); ?><br>
-                    <?php htmlspecialchars(number_format($plat['prix'], 2)); ?>€/personne
-                </h2>
-                <figure>
-                    <ul class="ingredients">
-                        <?php
-                        // Convertir la liste des ingrédients (séparés par des virgules) en tableau
-                        $ingredients = explode(',', $plat['ingredients']);
-                        foreach ($ingredients as $ingredient):
-                        ?>
-                            <li><?= htmlspecialchars(trim($ingredient)); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <img src="<?= htmlspecialchars($plat['image']); ?>" alt="Photo de <?= htmlspecialchars($plat['nom']); ?>" class="photo">
-                    <figcaption class="description">
-                        <?= htmlspecialchars($plat['description']); ?>
-                    </figcaption>
-                </figure>
-            </div>
-        <?php endforeach; ?>
+        <?php 
+        if (empty($platsPartagés)) {
+            echo '<p>Aucun plat partagé trouvé.</p>';
+        } else {
+            foreach ($platsPartagés as $plat) { 
+                echo '<div class="onglet">';
+                
+                // Titre du plat
+                echo '<h2 class="title">';
+                echo htmlspecialchars($plat['nom']) . '<br>';
+                echo htmlspecialchars($plat['categorie']) . '<br>';
+                echo htmlspecialchars(number_format($plat['prix'], 2)) . '€/personne';
+                echo '</h2>';
+                
+                echo '<figure>';
+                
+                // Liste des ingrédients
+                echo '<ul class="ingredients">';
+                $ingredients = explode(',', $plat['ingredients']);
+                foreach ($ingredients as $ingredient) {
+                    echo '<li>' . htmlspecialchars(trim($ingredient)) . '</li>';
+                }
+                echo '</ul>';
+                
+                // Image du plat
+                echo '<img src="' . htmlspecialchars($plat['image']) . '" alt="Photo de ' . htmlspecialchars($plat['nom']) . '" class="photo">';
+                
+                // Description du plat
+                echo '<figcaption class="description">';
+                echo htmlspecialchars($plat['description']);
+                echo '</figcaption>';
+                
+                echo '</figure>';
+                echo '</div>';
+            }
+        }
+        ?>
             
         <div class="onglet">
             <h2 class="title">Salade César <br> Entrée <br> 4€/personne </h2>
