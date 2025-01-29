@@ -5,7 +5,7 @@
         <!-- si message d'erreur, on l'affiche -->
         <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
 
-            <article class="alert alert-danger" role="alert">
+            <article class="alerte alerte-erreur" role="alert">
                 <?php echo $_SESSION["LOGIN_ERROR_MESSAGE"];
                 unset($_SESSION["LOGIN_ERROR_MESSAGE"]); ?>
             </article>
@@ -21,7 +21,8 @@
 
         <article class="form-connexion">
             <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" required>
+            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
+            required>
         </article>
 
         <input type="submit" value="Se connecter">
@@ -35,7 +36,7 @@
 <?php else : ?>
     <?php if (isset($_SESSION["LOGGED_USER"]["nom_utilisateur"])) : ?>
 
-        <article class="alert alert-success" role="alert">
+        <article class="alerte alerte-succes" role="alert">
             Bonjour <?php echo $_SESSION["LOGGED_USER"]["nom_utilisateur"]; ?> !
         </article>
         
