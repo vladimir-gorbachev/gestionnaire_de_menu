@@ -71,15 +71,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
+    <!-- Si création de compte, on affiche un message de succès -->
+    <?php if (isset($_SESSION["succesMessage"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["succesMessage"]; ?>
+        </article>
+    <?php endif; ?>
+
     <?php if (!isset($_SESSION["utilisateur-connecte"])) : ?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
             <p class="erreur"><?php echo $loginErr; ?></p>
-
-            <?php if (!empty($succesMessage)) : ?>
-                <p class="succes"><?php echo $succesMessage; ?></p>
-            <?php endif; ?>
 
             <h2>Connexion à votre compte</h2>
             

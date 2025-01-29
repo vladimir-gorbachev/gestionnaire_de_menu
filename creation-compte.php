@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $req = $pdo->prepare($sql);
             if ($req->execute([":nom_utilisateur" => $nom, ":mot_de_passe" => $cryptMdp, 
             ":email" => $email])) {
-                $succesMessage = "Votre compte a été créé avec succès !";
+                $_SESSION["succesMessage"] = "Votre compte a été créé avec succès !";
                 $email = $nom = $mot_de_passe = ""; // Réinitialiser les champs
                 header("Location: connexion.php");
                 exit();
@@ -96,28 +96,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 
     <h2>Créez votre compte</h2>
-
-    <p class="erreur">* champs obligatoires</p>
     
     <article class="form-connexion">
         <label for="email">Adresse e-mail:</label>
         <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
         value="<?php echo htmlspecialchars($email);?>">
-        <p class="erreur">* <?php echo $emailErr;?></p>
+        <p class="erreur"><?php echo $emailErr;?></p>
     </article>
 
     <article class="form-connexion">
         <label for="nom">Nom d'utilisateur:</label>
         <input type="text" id="nom" name="nom" placeholder="Nom d'utilisateur" required 
         value="<?php echo htmlspecialchars($nom);?>">
-        <p class="erreur">* <?php echo $nomErr;?></p>
+        <p class="erreur"><?php echo $nomErr;?></p>
     </article>
 
     <article class="form-connexion">
         <label for="mot_de_passe">Mot de passe:</label>
         <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
         required value="<?php echo htmlspecialchars($mot_de_passe);?>">
-        <p class="erreur">* <?php echo $mot_de_passeErr;?></p>
+        <p class="erreur"><?php echo $mot_de_passeErr;?></p>
     </article>
 
     <!-- <article class="form-connexion">

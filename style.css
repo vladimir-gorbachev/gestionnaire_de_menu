@@ -20,6 +20,8 @@ font-family: "Lato", serif; */
     list-style-type: none;
     border: none;
     font-family: "Lato", serif;
+    /* border: red;
+    border-style: solid; */
 }
 
 h2{
@@ -42,6 +44,7 @@ nav ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 8px 32px;
 }
 
 li img{
@@ -110,13 +113,13 @@ body{
 }
 /* FORM */
 
-form{
+form {
     background-color: var(--primary-50);
     display: flex;
     flex-flow: nowrap column ;
     justify-content: center;
     align-items: center;
-    border: --secondary 1px solid;
+    border: 1px solid var(--secondary);
     border-radius: 15px;
     gap: 30px; 
     padding: 10px;
@@ -147,13 +150,25 @@ input:hover{
     font-weight: bold;
 }
 
-.alerte-erreur {
-    color: var(--error-);
+.alerte {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
-    background-color: var(--secondary);
-    border: 1px solid --error-;
     padding: 10px;
     border-radius: 5px;
+}
+
+.alerte-succes {
+    border: 1px solid #344408;
+    color: #344408;
+    background-color: #8096135b;
+}
+
+.erreur {
+    color: var(--error-);
 }
 
 input[type="submit"] {
