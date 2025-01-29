@@ -1,28 +1,3 @@
-<?php
-try {
-    $pdo = new PDO("mysql:host=localhost;dbname=Platform;charset=utf8", "root");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (Exception $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-?>
-
-
-<?php
-
-try {
-    // Requête pour récupérer tous les plats partages
-    $query = $pdo->query("SELECT * FROM plats_partages");
-
-    // Récupération des données sous forme de tableau associatif
-    $platsPartages = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    die("Erreur lors de la récupération des données : " . $e->getMessage());
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -32,6 +7,8 @@ try {
     <link rel="stylesheet" href="recettes_de_chef.css">
 </head>
 <body>
+
+    
 
     <div class="onglets">
             
