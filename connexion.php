@@ -75,8 +75,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
-
             <p class="erreur"><?php echo $loginErr; ?></p>
+
+            <?php if (!empty($succesMessage)) : ?>
+                <p class="succes"><?php echo $succesMessage; ?></p>
+            <?php endif; ?>
 
             <h2>Connexion à votre compte</h2>
             
@@ -99,13 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         </form>
 
-    <!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
-    <?php else : ?>
-        <?php if (isset($_SESSION["utilisateur-connecte"]["nom_utilisateur"])) : ?>
-            <article class="alerte alerte-succes" role="alert">
-                Bonjour <?php echo $_SESSION["utilisateur-connecte"]["nom_utilisateur"]; ?> !
-            </article>
-        <?php endif; ?>
     <?php endif; ?>
 
     <!-- inclusion du bas de page du site -->

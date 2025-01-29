@@ -22,6 +22,13 @@ require_once(__DIR__ . "/base-donnees.php")
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
+    <!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
+    <?php if (isset($_SESSION["utilisateur-connecte"]["nom_utilisateur"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            Bonjour <?php echo $_SESSION["utilisateur-connecte"]["nom_utilisateur"]; ?> !
+        </article>
+    <?php endif; ?>
+
     <!-- inclusion du bas de page du site -->
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>

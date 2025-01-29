@@ -63,7 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ":email" => $email])) {
                 $succesMessage = "Votre compte a été créé avec succès !";
                 $email = $nom = $mot_de_passe = ""; // Réinitialiser les champs
-            } else {
+                header("Location: connexion.php");
+                exit();
+            } 
+            else {
                 $emailErr = "Erreur lors de l'inscription.";
             }
         }
@@ -93,10 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 
     <h2>Créez votre compte</h2>
-
-    <?php if (!empty($succesMessage)) : ?>
-        <p class="succes"><?php echo $succesMessage; ?></p>
-    <?php endif; ?>
 
     <p class="erreur">* champs obligatoires</p>
     
