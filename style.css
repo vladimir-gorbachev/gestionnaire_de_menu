@@ -11,11 +11,91 @@
 font-family: "Playfair Display", serif;
 font-family: "Lato", serif; */
 
-/* Général */
-* {
-    padding: 0px;
-    margin: 0px;
+*{
     text-decoration: none;
-    list-style-type: none;
-    border: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+/* HEADER */
+
+header{
+    margin: 5px;
+    padding: 10px;
+    background-color: var(--primary-50);
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li img{
+    max-height: 40px;
+}
+
+.li-logo{
+    display: none;
+}
+
+.li-connexion{
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .li-logo-mobile{
+        display: none;
+    }
+
+    .li-connexion-mobile{
+        display: none;
+    }
+
+    .li-logo{
+        display: flex;
+    }
+
+    .li-connexion {
+        display: flex;
+    }
+    
+    .li-connexion a {
+        font-family: "Lato", serif;
+        display: inline-block;
+        background-color: var(--tertiary-25);
+        color: var(--secondary);
+        font-weight: bold;
+        padding: 8px 12px;
+        border: var(--secondary) 1px solid;
+        border-radius: 15px;
+        transition: background-color 0.3s ease-in-out;
+
+    }
+    
+    .li-connexion a:hover {
+        background-color: var(--tertiary);
+        color: var(--primary);
+    }
+
+    li img{
+        max-height: 60px;
+    }
+}
+
+/* FOOTER */
+footer {
+    font-family: "Lato", serif;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--secondary-25);
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  
+  footer p {
+    color: var(--secondary); 
+  }
