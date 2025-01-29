@@ -2,7 +2,7 @@
 try {
     $pdo = new PDO("mysql:host=localhost;dbname=Platform;charset=utf8", "root");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (exception $e) {
+} catch (Exception $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
 ?>
@@ -11,12 +11,12 @@ try {
 <?php
 
 try {
-    // Requête pour récupérer tous les plats partagés
-    $query = $pdo->query("SELECT * FROM plats_partagés");
+    // Requête pour récupérer tous les plats partages
+    $query = $pdo->query("SELECT * FROM plats_partages");
 
     // Récupération des données sous forme de tableau associatif
     $platsPartages = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (exception $e) {
+} catch (Exception $e) {
     die("Erreur lors de la récupération des données : " . $e->getMessage());
 }
 ?>
@@ -32,50 +32,8 @@ try {
     <link rel="stylesheet" href="recettes_de_chef.css">
 </head>
 <body>
-    <pre>
-    <?php print_r($platsPartages); ?>
-    </pre>
-
-
 
     <div class="onglets">
-        <?php 
-        if (empty($platsPartagés)) {
-            echo '<p>Aucun plat partagé trouvé.</p>';
-        } else {
-            foreach ($platsPartagés as $plat) { 
-                echo '<div class="onglet">';
-                
-                // Titre du plat
-                echo '<h2 class="title">';
-                echo htmlspecialchars($plat['nom']) . '<br>';
-                echo htmlspecialchars($plat['categorie']) . '<br>';
-                echo htmlspecialchars(number_format($plat['prix'], 2)) . '€/personne';
-                echo '</h2>';
-                
-                echo '<figure>';
-                
-                // Liste des ingrédients
-                echo '<ul class="ingredients">';
-                $ingredients = explode(',', $plat['ingredients']);
-                foreach ($ingredients as $ingredient) {
-                    echo '<li>' . htmlspecialchars(trim($ingredient)) . '</li>';
-                }
-                echo '</ul>';
-                
-                // Image du plat
-                echo '<img src="' . htmlspecialchars($plat['image']) . '" alt="Photo de ' . htmlspecialchars($plat['nom']) . '" class="photo">';
-                
-                // Description du plat
-                echo '<figcaption class="description">';
-                echo htmlspecialchars($plat['description']);
-                echo '</figcaption>';
-                
-                echo '</figure>';
-                echo '</div>';
-            }
-        }
-        ?>
             
         <div class="onglet">
             <h2 class="title">Salade César <br> Entrée <br> 4€/personne </h2>
