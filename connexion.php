@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=" ">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content=" ">
@@ -9,9 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="./cssA.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
-    <title>Plat'form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <title>Plat'form - Connexion</title>
 </head>
 <body>
     <!-- inclusion de l'entête du site -->
@@ -19,51 +23,51 @@
 
     <?php if (!isset($_SESSION["LOGGED_USER"])) : ?>
 
-<form action="./envoyer-connexion.php" method="POST">
+    <form action="./envoyer-connexion.php" method="POST">
 
-    <!-- si message d'erreur, on l'affiche -->
-    <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
+        <!-- si message d'erreur, on l'affiche -->
+        <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
 
-        <article class="alerte alerte-erreur" role="alert">
-            <?php echo $_SESSION["LOGIN_ERROR_MESSAGE"];
-            unset($_SESSION["LOGIN_ERROR_MESSAGE"]); ?>
+            <article class="alerte alerte-erreur" role="alert">
+                <?php echo $_SESSION["LOGIN_ERROR_MESSAGE"];
+                unset($_SESSION["LOGIN_ERROR_MESSAGE"]); ?>
+            </article>
+
+        <?php endif; ?>
+
+        <h2>Connexion à votre compte</h2>
+        
+        <article class="form-connexion">
+            <label for="email">Adresse e-mail:</label>
+            <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
         </article>
 
-    <?php endif; ?>
+        <article class="form-connexion">
+            <label for="mot_de_passe">Mot de passe:</label>
+            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
+            required>
+        </article>
 
-    <h2>Connexion à votre compte</h2>
-    
-    <article class="form-connexion">
-        <label for="email">Adresse e-mail:</label>
-        <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
-    </article>
+        <input type="submit" value="Se connecter">
+        <a href="#">Mot de passe oublié ?</a>
 
-    <article class="form-connexion">
-        <label for="mot_de_passe">Mot de passe:</label>
-        <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
-        required>
-    </article>
+        <a href="./creation-compte.php" class="pasencore">Pas encore de compte ? C'est par ici !</a>
 
-    <input type="submit" value="Se connecter">
-    <a href="#">Mot de passe oublié ?</a>
-
-    <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
-
-</form>
+    </form>
 
 <!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
-<?php else : ?>
-<?php if (isset($_SESSION["LOGGED_USER"]["nom_utilisateur"])) : ?>
+    <?php else : ?>
+    <?php if (isset($_SESSION["LOGGED_USER"]["nom_utilisateur"])) : ?>
 
-    <article class="alerte alerte-succes" role="alert">
-        Bonjour <?php echo $_SESSION["LOGGED_USER"]["nom_utilisateur"]; ?> !
-    </article>
-    
-<?php endif; ?>
-<?php endif; ?>
+        <article class="alerte alerte-succes" role="alert">
+            Bonjour <?php echo $_SESSION["LOGGED_USER"]["nom_utilisateur"]; ?> !
+        </article>
+        
+    <?php endif; ?>
+    <?php endif; ?>
 
-    <!-- inclusion du bas de page du site -->
-    <?php require_once(__DIR__ . "/footer.php"); ?>
+        <!-- inclusion du bas de page du site -->
+        <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
 
 <script>
