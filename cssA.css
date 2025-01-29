@@ -21,7 +21,9 @@ font-family: "Lato", serif; */
 /* HEADER */
 
 header{
-    margin: 15px;
+    margin: 5px;
+    padding: 10px;
+    background-color: var(--primary-50);
 }
 
 nav ul {
