@@ -36,42 +36,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mot_de_passe = test_saisie($_POST["mot_de_passe"]);
     }
 
-        // Vérifier si l'email OU le nom d'utilisateur existent déjà
-        if (empty($emailErr) && empty($nomErr) && empty($mot_de_passeErr)) {
-            $verif = $pdo->prepare("SELECT email, nom_utilisateur FROM utilisateurs 
-            WHERE email = :email OR nom_utilisateur = :nom");
-            $verif->execute(["email" => $email, "nom" => $nom]);
-            $result = $verif->fetch(PDO::FETCH_ASSOC);
-    
-            if ($result) {
-                if ($result["email"] == $email) {
-                    $emailErr = "Un compte existe déjà avec cet email.";
-                }
-                if ($result["nom_utilisateur"] == $nom) {
-                    $nomErr = "Ce nom d'utilisateur est déjà pris.";
-                }
-            } 
-            else {
-                // Cryptage du mot de passe
-                $cryptMdp = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-    
-                // Insérer dans la base de données
-                $sql = "INSERT INTO utilisateurs(nom_utilisateur, mot_de_passe, email) 
-                        VALUES (:nom_utilisateur, :mot_de_passe, :email)";
-                $req = $pdo->prepare($sql);
-                if ($req->execute([":nom_utilisateur" => $nom, ":mot_de_passe" => $cryptMdp, 
-                ":email" => $email])) {
-                    $succesMessage = "Votre compte a été créé avec succès !";
-                    $email = $nom = $mot_de_passe = ""; // Réinitialiser les champs
-                } else {
-                    $emailErr = "Erreur lors de l'inscription.";
-                }
+    // Vérifier si l'email OU le nom d'utilisateur existent déjà
+    if (empty($emailErr) && empty($nomErr) && empty($mot_de_passeErr)) {
+        $verif = $pdo->prepare("SELECT email, nom_utilisateur FROM utilisateurs 
+        WHERE email = :email OR nom_utilisateur = :nom");
+        $verif->execute(["email" => $email, "nom" => $nom]);
+        $result = $verif->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            if ($result["email"] == $email) {
+                $emailErr = "Un compte existe déjà avec cet email.";
+            }
+            if ($result["nom_utilisateur"] == $nom) {
+                $nomErr = "Ce nom d'utilisateur est déjà pris.";
+            }
+        } 
+        else {
+            // Cryptage du mot de passe
+            $cryptMdp = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
+            // Insérer dans la base de données
+            $sql = "INSERT INTO utilisateurs(nom_utilisateur, mot_de_passe, email) 
+                    VALUES (:nom_utilisateur, :mot_de_passe, :email)";
+            $req = $pdo->prepare($sql);
+            if ($req->execute([":nom_utilisateur" => $nom, ":mot_de_passe" => $cryptMdp, 
+            ":email" => $email])) {
+                $succesMessage = "Votre compte a été créé avec succès !";
+                $email = $nom = $mot_de_passe = ""; // Réinitialiser les champs
+            } else {
+                $emailErr = "Erreur lors de l'inscription.";
             }
         }
     }
+}
 ?>
+
 <!DOCTYPE html>
-<html lang=" ">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content=" ">
@@ -81,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="./cssA.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
     <title>Plat'form</title>
 </head>
