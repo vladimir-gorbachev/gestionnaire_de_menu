@@ -1,4 +1,4 @@
-root {
+:root {
     --primary: #E6E6E6;
     --primary-50: rgb(230, 230, 230, 0.5);
     --secondary: #28373E;
@@ -6,13 +6,26 @@ root {
     --tertiary: #DA5825;
     --tertiary-25: rgb(218, 88, 37, 0.25);
 }
-/* HEADER */
 
-nav ul {
-    display: flex;
+/* Police d'écriture:
+font-family: "Playfair Display", serif;
+font-family: "Lato", serif; */
+
+*{
+    text-decoration: none;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+/* HEADER */
+
+header{
+    margin: 15px;
+}
+
+nav ul {
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
@@ -29,7 +42,7 @@ li img{
     display: none;
 }
 
-@media (min-width: 540px) {
+@media (min-width: 1024px) {
     .li-logo-mobile{
         display: none;
     }
@@ -42,8 +55,26 @@ li img{
         display: flex;
     }
 
-    .li-connexion{
+    .li-connexion {
         display: flex;
+    }
+    
+    .li-connexion a {
+        font-family: "Lato", serif;
+        display: inline-block;
+        background-color: var(--tertiary-25);
+        color: var(--secondary);
+        font-weight: bold;
+        padding: 8px 12px;
+        border: var(--secondary) 1px solid;
+        border-radius: 15px;
+        transition: background-color 0.3s ease-in-out;
+
+    }
+    
+    .li-connexion a:hover {
+        background-color: var(--tertiary);
+        color: var(--primary);
     }
 
     li img{
@@ -53,19 +84,17 @@ li img{
 
 /* FOOTER */
 footer {
-    position: fixed;
+    font-family: "Lato", serif;
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: var(--secondary-25);
     text-align: center;
     padding: 10px 0;
-    margin: 0;
     font-size: 14px;
   }
   
   footer p {
-    margin: 0;
     color: var(--secondary); 
   }
   
