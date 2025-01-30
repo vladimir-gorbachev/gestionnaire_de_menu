@@ -41,7 +41,7 @@ require_once(__DIR__ . "/base-donnees.php")
             <img src="img/ONGLET CREEZ.png" alt="Créez vos propres recettes">
         </a>
 
-        <a href="link3.php" class="onglet">
+        <a href="creation-menu.php" class="onglet">
             <img src="img/ONGLET ORGANISEZ.png" alt="Organisez vos menus">
         </a>
     </section>
