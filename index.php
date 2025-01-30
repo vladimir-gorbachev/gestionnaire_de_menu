@@ -4,7 +4,7 @@ require_once(__DIR__ . "/base-donnees.php")
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr ">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content=" ">
@@ -34,7 +34,7 @@ require_once(__DIR__ . "/base-donnees.php")
             <img src="img/ONGLET DECOUVREZ.png" alt="Découvrez nos recettes de Chef.fes">
         </a>
 
-        <a href="link2.php" class="onglet">
+        <a href="creation-recette.php" class="onglet">
             <img src="img/ONGLET CREEZ.png" alt="Créez vos propres recettes">
         </a>
 
