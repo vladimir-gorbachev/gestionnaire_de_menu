@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
     <title>Plat'form</title>
 </head>
 <body>
