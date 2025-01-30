@@ -79,7 +79,7 @@ INSERT INTO `ingredients` (`id`, `nom_ingredient`) VALUES
 (16, 'Lait entier'),
 (17, 'Farine'),
 (18, 'Sucre'),
-(19, "Jaunes d\'oeufs"),
+(19, 'Jaunes d\'oeufs'),
 (20, 'Zeste de citron');
 
 -- --------------------------------------------------------
@@ -160,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `plats` (
 --
 
 INSERT INTO `plats` (`id`, `nom`, `categorie_id`, `prix`, `description`, `image`, `utilisateur_id`, `partage`) VALUES
-(1, "Salade César", 4, 4.00, "Salade classique et savoureuse, composée de laitue romaine croquante, de poulet grillé, de copeaux de parmesan, de croûtons dorés, et relevée par une sauce crémeuse à base de mayonnaise, dail, de parmesan et danchois. Ce plat, à la fois léger et gourmand, est idéal en entrée ou en plat principal.", 'images/mon_image.jpg', 1, 1),
-(2, "Gnocchi épinards Gorgonzola", 5, 7.00, "Plat italien crémeux et réconfortant. Les gnocchis moelleux sont enrobés dune sauce onctueuse au gorgonzola, sublimée par la douceur des épinards et une touche de muscade. Un mélange parfait de saveurs et de textures pour un repas gourmand.", 'images/mon_image.jpg', 1, 1),
-(3, "Pastel de Nata", 6, 2.00, "Petites tartes portugaises à la crème, au cœur fondant et parfumé à la cannelle et au citron, nichées dans une pâte feuilletée croustillante. Un délice emblématique du Portugal, souvent dégusté tiède avec une touche de sucre glace ou de cannelle.", 'images/pastel_de_nata.jpg', 1, 1);
+(1, 'Salade César', 4, 4.00, 'Salade classique et savoureuse, composée de laitue romaine croquante, de poulet grillé, de copeaux de parmesan, de croûtons dorés, et relevée par une sauce crémeuse à base de mayonnaise, d\'ail, de parmesan et d\'anchois. Ce plat, à la fois léger et gourmand, est idéal en entrée ou en plat principal.', 'images/mon_image.jpg', 1, 1),
+(2, 'Gnocchi épinards Gorgonzola', 5, 7.00, 'Plat italien crémeux et réconfortant. Les gnocchis moelleux sont enrobés d\'une sauce onctueuse au gorgonzola, sublimée par la douceur des épinards et une touche de muscade. Un mélange parfait de saveurs et de textures pour un repas gourmand.', 'images/mon_image.jpg', 1, 1),
+(3, 'Pastel de Nata', 6, 2.00, 'Petites tartes portugaises à la crème, au cœur fondant et parfumé à la cannelle et au citron, nichées dans une pâte feuilletée croustillante. Un délice emblématique du Portugal, souvent dégusté tiède avec une touche de sucre glace ou de cannelle.', 'images/pastel_de_nata.jpg', 1, 1);
 
 -- --------------------------------------------------------
 
