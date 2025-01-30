@@ -8,9 +8,10 @@
     align-self: center;
     justify-content: center;
     gap: 40px;
+    
 }
 
-.onglet {
+.onglet{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -31,7 +32,7 @@
 }
 
 .onglet:hover {
-    transform: scale(1.05); /* Agrandissement au survol */
+    transform: scale(1.15); /* Agrandissement au survol */
 }
 
 /* Titre */
@@ -51,7 +52,7 @@ figure {
 
 /* Photo */
 .photo {
-    width: 100px; /* Taille de l'image */
+    width: 50px; /* Taille de l'image */
     height: 100px;
     border-radius: 5px;
     object-fit: cover; /* Maintient les proportions de l'image */

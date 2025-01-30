@@ -32,7 +32,7 @@ require_once(__DIR__ . "/base-donnees.php")
                         <h2><?= htmlspecialchars($plat['nom']) ?></h2>
                         <p><?= htmlspecialchars($plat['categorie_id']) ?></p>
                         <p><?= htmlspecialchars($plat['prix']) ?> €</p>
-                        <img src="<?= htmlspecialchars($plat['image']) ?>" alt="image de : <?= htmlspecialchars($plat['nom']) ?>">
+                        <!-- <img src="<?= htmlspecialchars($plat['image']) ?>" alt="image de : <?= htmlspecialchars($plat['nom']) ?>"> -->
                         <p><?= htmlspecialchars($plat['description']) ?></p>
                     </div>
                 <?php endforeach; ?>
