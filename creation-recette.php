@@ -3,8 +3,8 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
-$nom = $description = $ingredients = "";
-$nomErr = $descriptionErr = $ingredientsErr = "";
+$nom = $description = "";
+$nomErr = $descriptionErr = "";
 
 function test_saisie($data) {
     $data = trim($data);
@@ -26,16 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     else {
         $description = test_saisie($_POST["description"]);
     }
-    if (empty($_POST["ingredients"])) {
-        $ingredientsErr = "Au moins un ingredient est requis pour la création de la recette.";
-    }
-    else {
-        $ingredients = test_saisie($_POST["ingredients"]);
-    }
 
     $sql = "INSERT INTO plats(nom, categorie_id, prix, description, image, utilisateur_id) 
     VALUES (:nom, :categorie_id, :prix, :description, :image, :utilisateur_id)";
     $req = $pdo->prepare($sql);
+    if ($req ->execute([":nom"=>$nom, ":categorie_id"=> $_POST["categorie"], ":prix"=>$_POST["prix"], 
+    ":description"=>$description, ":image"=>$_POST["photo"], 
+    ":utilisateur_id"=>$_SESSION["utilisateur-connecte"]["id"]])) {
+        $_SESSION["succesMessage"] = "Votre recette a bien été ajoutée !";
+        $nom = $description = "";
+        header("Location: index.php");
+        exit();
+    }
 }
 
 ?>
@@ -61,7 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
+    enctype="multipart/form-data">
 
         <h2>Créez votre recette</h2>
 
@@ -76,11 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </article>
 
         <article class="form-connexion">
-            <input type="radio" id="entree" name="categorie" value="Entrée" checked>
+            <input type="radio" id="entree" name="categorie" value="4" checked>
             <label for="entree">Entrée</label>
-            <input type="radio" id="plat" name="categorie" value="Plat principal">
+            <input type="radio" id="plat" name="categorie" value="5">
             <label for="plat">Plat principal</label>
-            <input type="radio" id="dessert" name="categorie" value="Dessert">
+            <input type="radio" id="dessert" name="categorie" value="6">
             <label for="dessert">Dessert</label>
         </article>
 
@@ -95,15 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php if (!empty($descriptionErr)) : ?>
                 <p class="erreur"><?php echo $descriptionErr;?></p>
-            <?php endif; ?>
-        </article>
-
-        <article class="form-connexion">
-            <label for="ingredients">Ingrédients:</label>
-            <textarea id="ingredients" name="ingredients" required></textarea>
-
-            <?php if (!empty($ingredientsErr)) : ?>
-                <p class="erreur"><?php echo $ingredientsErr;?></p>
             <?php endif; ?>
         </article>
 
