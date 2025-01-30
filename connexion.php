@@ -51,7 +51,7 @@
         <input type="submit" value="Se connecter">
         <a href="#">Mot de passe oublié ?</a>
 
-        <a href="./creation-compte.php" class="pasencore">Pas encore de compte ? C'est par ici !</a>
+        <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
 
     </form>
 

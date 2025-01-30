@@ -143,9 +143,6 @@ input:hover{
     color: var(--tertiary);
 }
 
-.pasencore {
-    font-weight: bold;
-}
 
 .alerte-erreur {
     color: var(--error-);
