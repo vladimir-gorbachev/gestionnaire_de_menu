@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 29 jan. 2025 à 10:39
+-- Généré le : mer. 29 jan. 2025 à 15:48
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `catégories`
+-- Structure de la table `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
@@ -32,7 +32,16 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `categories`
+--
+
+INSERT INTO `categories` (`id`, `nom`) VALUES
+(4, 'Entrée'),
+(5, 'Plat'),
+(6, 'Dessert');
 
 -- --------------------------------------------------------
 
@@ -43,9 +52,35 @@ CREATE TABLE IF NOT EXISTS `categories` (
 DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE IF NOT EXISTS `ingredients` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom_ingredient` varchar(100) NOT NULL,
+  `nom_ingredient` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `ingredients`
+--
+
+INSERT INTO `ingredients` (`id`, `nom_ingredient`) VALUES
+(1, 'Laitue Romaine'),
+(2, 'Poulet Grillé'),
+(3, 'Parmesan'),
+(4, 'Croûtons'),
+(5, 'Sauce César'),
+(6, 'Oeuf mollet'),
+(7, 'Bacon'),
+(8, 'Gnocchis'),
+(9, 'Epinards frais'),
+(10, 'Gorgonzola'),
+(11, 'Crème fraiche liquide'),
+(12, 'Ail'),
+(13, 'Beurre'),
+(14, 'Sel et Poivre'),
+(15, 'Pate feuilletée'),
+(16, 'Lait entier'),
+(17, 'Farine'),
+(18, 'Sucre'),
+(19, 'Jaunes d\'oeufs'),
+(20, 'Zeste de citron');
 
 -- --------------------------------------------------------
 
@@ -63,8 +98,15 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `prix` decimal(10,2) NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `utilisateur_id` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `menus`
+--
+
+INSERT INTO `menus` (`id`, `nom`, `utilisateur_id`, `partage`, `description`, `prix`, `image`) VALUES
+(3, 'Menu exemple', 1, 1, '', 13.00, '');
 
 -- --------------------------------------------------------
 
@@ -78,9 +120,19 @@ CREATE TABLE IF NOT EXISTS `menu_plats` (
   `menu_id` int NOT NULL,
   `plats_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `menu_id` (`menu_id`),
-  UNIQUE KEY `plats_id` (`plats_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `menu_id` (`menu_id`) USING BTREE,
+  KEY `plats_id` (`plats_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `menu_plats`
+--
+
+INSERT INTO `menu_plats` (`id`, `menu_id`, `plats_id`) VALUES
+(1, 3, 1),
+(5, 3, 1),
+(6, 3, 2),
+(7, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -99,14 +151,23 @@ CREATE TABLE IF NOT EXISTS `plats` (
   `utilisateur_id` int NOT NULL,
   `partage` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `categorie_id` (`categorie_id`),
-  UNIQUE KEY `utilisateur_id` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
+  KEY `categorie_id` (`categorie_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `plats`
+--
+
+INSERT INTO `plats` (`id`, `nom`, `categorie_id`, `prix`, `description`, `image`, `utilisateur_id`, `partage`) VALUES
+(1, 'Salade César', 4, 4.00, 'Salade classique et savoureuse, composée de laitue romaine croquante, de poulet grillé, de copeaux de parmesan, de croûtons dorés, et relevée par une sauce crémeuse à base de mayonnaise, d\'ail, de parmesan et d\'anchois. Ce plat, à la fois léger et gourmand, est idéal en entrée ou en plat principal.', 'images/mon_image.jpg', 1, 1),
+(2, 'Gnocchi épinards Gorgonzola', 5, 7.00, 'Plat italien crémeux et réconfortant. Les gnocchis moelleux sont enrobés d\'une sauce onctueuse au gorgonzola, sublimée par la douceur des épinards et une touche de muscade. Un mélange parfait de saveurs et de textures pour un repas gourmand.', 'images/mon_image.jpg', 1, 1),
+(3, 'Pastel de Nata', 6, 2.00, 'Petites tartes portugaises à la crème, au cœur fondant et parfumé à la cannelle et au citron, nichées dans une pâte feuilletée croustillante. Un délice emblématique du Portugal, souvent dégusté tiède avec une touche de sucre glace ou de cannelle.', 'images/pastel_de_nata.jpg', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `plats_ingrédients`
+-- Structure de la table `plats_ingredients`
 --
 
 DROP TABLE IF EXISTS `plats_ingredients`;
@@ -115,9 +176,36 @@ CREATE TABLE IF NOT EXISTS `plats_ingredients` (
   `plat_id` int NOT NULL,
   `ingredient_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `plat_id` (`plat_id`),
-  UNIQUE KEY `ingredient_id` (`ingredient_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `plat_id` (`plat_id`) USING BTREE,
+  KEY `ingredient_id` (`ingredient_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `plats_ingredients`
+--
+
+INSERT INTO `plats_ingredients` (`id`, `plat_id`, `ingredient_id`) VALUES
+(77, 1, 1),
+(80, 1, 2),
+(82, 1, 3),
+(84, 1, 4),
+(87, 1, 5),
+(89, 1, 6),
+(93, 1, 7),
+(95, 2, 8),
+(96, 2, 9),
+(97, 2, 10),
+(98, 2, 11),
+(99, 2, 12),
+(100, 2, 13),
+(101, 2, 14),
+(102, 3, 15),
+(103, 3, 15),
+(104, 3, 16),
+(105, 3, 17),
+(106, 3, 18),
+(107, 3, 19),
+(108, 3, 20);
 
 -- --------------------------------------------------------
 
@@ -134,7 +222,15 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `unique_nom_utilisateur` (`nom_utilisateur`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`id`, `nom_utilisateur`, `mot_de_passe`, `email`) VALUES
+(1, 'vladimir', 'vladimir', 'vladimir.gorbachev@laplateforme.io'),
+(3, 'utilisateur', 'utilisateur', 'utilisateur@laplateforme.io');
 
 --
 -- Contraintes pour les tables déchargées
@@ -161,98 +257,13 @@ ALTER TABLE `plats`
   ADD CONSTRAINT `fk_utilisateur_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `plats_ingrédients`
+-- Contraintes pour la table `plats_ingredients`
 --
 ALTER TABLE `plats_ingredients`
-  ADD CONSTRAINT `fk_ingredient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ingrédient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_plat_id` FOREIGN KEY (`plat_id`) REFERENCES `plats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-/*création des catégories entrée,plat et dessert__________________*/
-
-INSERT INTO categories (nom) VALUES 
-('Entrée'), 
-('Plat'), 
-('Dessert');
-
-
-
-
-/*insérer les 3 plats de référence _______________________________*/
-
-INSERT INTO plats (nom, categorie_id, prix, description, image, utilisateur_id, partage) VALUES 
-('Salade César', (SELECT id FROM categories WHERE nom = 'Entrée'), 4.00, 'Salade classique et savoureuse', "img/salade_cesar.png" , NULL, true),
-('Gnocchi épinards gorgonzola', (SELECT id FROM categories WHERE nom = 'Plat'), 7.00, 'Plat italien crémeux et réconfortant',"img/gnocchis_epinards.png" , NULL, true),
-('Pastel De Nata', (SELECT id FROM categories WHERE nom = 'Dessert'), 2.00, 'Petites tartes portugaises à la crème', "img/pastel_de_nata.png" , NULL, true);
-
-
-
-
-/* Insérer le "menu par défaut"*_________________*/
-
-INSERT INTO menus (nom, utilisateur_id, partage) VALUES ('Menu par défaut', NULL, true);
-
--- Associer les plats au menu
-INSERT INTO menus_plats (menu_id, plat_id) VALUES 
-((SELECT id FROM menus WHERE nom = 'Menu par défaut'), (SELECT id FROM plats WHERE nom = 'Salade César')),
-((SELECT id FROM menus WHERE nom = 'Menu par défaut'), (SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola')),
-((SELECT id FROM menus WHERE nom = 'Menu par défaut'), (SELECT id FROM plats WHERE nom = 'Pastel De Nata'));
-
-
-
-INSERT INTO ingredients (nom) VALUES 
-('Laitue Romaine'),
-('Poulet Grillé'),
-('Parmesan'),
-('Croûtons'),
-('Sauce César'),
-('Oeuf mollet'),
-('Bacon'),
-('Gnocchis'),
-('Epinards frais'),
-('Gorgonzola'),
-('Crème fraiche liquide'),
-('Ail'),
-('Beurre'),
-('Sel et Poivre'),
-('Pate feuilletée'),
-('Lait entier'),
-('Farine'),
-('Sucre'),
-("Jaunes d'oeufs"),
-('Zeste de citron');
-
-
--- Ingrédients pour Salade César
-INSERT INTO plats_ingredients (plat_id, ingredient_id) VALUES 
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Laitue Romaine')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Poulet Grillé')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Parmesan')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Croûtons')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Sauce César')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Oeuf mollet')),
-((SELECT id FROM plats WHERE nom = 'Salade César'), (SELECT id FROM ingredients WHERE nom = 'Bacon'));
-
--- Ingrédients pour Gnocchi épinards gorgonzola
-INSERT INTO plats_ingredients (plat_id, ingredient_id) VALUES 
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Gnocchis')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Epinards frais')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Gorgonzola')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Crème fraiche liquide')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Ail')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Beurre')),
-((SELECT id FROM plats WHERE nom = 'Gnocchi épinards gorgonzola'), (SELECT id FROM ingredients WHERE nom = 'Sel et Poivre'));
-
--- Ingrédients pour Pastel de Nata
-INSERT INTO plats_ingredients (plat_id, ingredient_id) VALUES 
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = 'Pate feuilletée')),
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = 'Lait entier')),
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = 'Farine')),
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = 'Sucre')),
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = "Jaunes d'oeufs")),
-((SELECT id FROM plats WHERE nom = 'Pastel De Nata'), (SELECT id FROM ingredients WHERE nom = 'Zeste de citron'));
