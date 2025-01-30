@@ -25,13 +25,6 @@ require_once(__DIR__ . "/base-donnees.php")
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
-    <?php if (isset($_SESSION["utilisateur-connecte"]["nom_utilisateur"])) : ?>
-        <article class="alerte alerte-succes" role="alert">
-            Bonjour <?php echo $_SESSION["utilisateur-connecte"]["nom_utilisateur"]; ?> !
-        </article>
-    <?php endif; ?>
-
     <section class="onglets">
         <a href="recettes_de_chef.php" class="onglet">
             <img src="img/ONGLET DECOUVREZ.png" alt="Découvrez nos recettes de Chef.fes">
@@ -41,7 +34,7 @@ require_once(__DIR__ . "/base-donnees.php")
             <img src="img/ONGLET CREEZ.png" alt="Créez vos propres recettes">
         </a>
 
-        <a href="link3.php" class="onglet">
+        <a href="creation-menu.php" class="onglet">
             <img src="img/ONGLET ORGANISEZ.png" alt="Organisez vos menus">
         </a>
     </section>
