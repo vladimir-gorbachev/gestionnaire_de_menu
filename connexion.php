@@ -1,3 +1,57 @@
+<?php
+session_start();
+require_once(__DIR__ . "/base-donnees.php");
+
+// Vérification du formulaire soumis
+$email = $mot_de_passe = "";
+$emailErr = $mot_de_passeErr = $loginErr = "";
+
+function test_saisie($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["email"])) {
+        $emailErr = "L'email est requis.";
+    }
+    else {
+        $email = test_saisie($_POST["email"]);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "L'adresse email n'est pas écrite dans un format valide.";
+          }
+    }
+    if (empty($_POST["mot_de_passe"])) {
+        $mot_de_passeErr = "Le mot de passe est requis.";
+    }
+    else {
+        $mot_de_passe = test_saisie($_POST["mot_de_passe"]);
+    }
+
+    if (empty($emailErr) && empty($mot_de_passeErr)) {
+        $sql = "SELECT * FROM utilisateurs WHERE email = :email";
+        $req = $pdo->prepare($sql);
+        $req->execute(["email" => $email]);
+        $utilisateur = $req->fetch(PDO::FETCH_ASSOC);
+
+        if ($utilisateur && password_verify($mot_de_passe, $utilisateur["mot_de_passe"])) {
+            // Stocker l'utilisateur en session
+            $_SESSION["utilisateur-connecte"] = [
+                "id" => $utilisateur["id"],
+                "nom_utilisateur" => $utilisateur["nom_utilisateur"],
+                "email" => $utilisateur["email"]];
+            header("Location: index.php");
+            exit();
+        } 
+        else {
+            $loginErr = "Email ou mot de passe incorrect";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -21,49 +75,40 @@
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <?php if (!isset($_SESSION["LOGGED_USER"])) : ?>
+    <!-- Si création de compte, on affiche un message de succès -->
+    <?php if (isset($_SESSION["succesMessage"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["succesMessage"]; ?>
+        </article>
+    <?php endif; ?>
 
-    <form action="./envoyer-connexion.php" method="POST">
+    <?php if (!isset($_SESSION["utilisateur-connecte"])) : ?>
 
-        <!-- si message d'erreur, on l'affiche -->
-        <?php if (isset($_SESSION["LOGIN_ERROR_MESSAGE"])) : ?>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
-            <article class="alerte alerte-erreur" role="alert">
-                <?php echo $_SESSION["LOGIN_ERROR_MESSAGE"];
-                unset($_SESSION["LOGIN_ERROR_MESSAGE"]); ?>
+            <p class="erreur"><?php echo $loginErr; ?></p>
+
+            <h2>Connexion à votre compte</h2>
+            
+            <article class="form-connexion">
+                <label for="email">Adresse e-mail:</label>
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
+                value="<?php echo htmlspecialchars($email);?>">
             </article>
 
-        <?php endif; ?>
+            <article class="form-connexion">
+                <label for="mot_de_passe">Mot de passe:</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
+                required>
+            </article>
 
-        <h2>Connexion à votre compte</h2>
-        
-        <article class="form-connexion">
-            <label for="email">Adresse e-mail:</label>
-            <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
-        </article>
+            <input type="submit" value="Se connecter">
+            <!-- <a href="#">Mot de passe oublié ?</a> -->
 
-        <article class="form-connexion">
-            <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
-            required>
-        </article>
+            <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
 
-        <input type="submit" value="Se connecter">
-        <a href="#">Mot de passe oublié ?</a>
+        </form>
 
-        <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
-
-    </form>
-
-<!-- Si utilisateur/trice bien connecté.e, on affiche un message de succès -->
-    <?php else : ?>
-    <?php if (isset($_SESSION["LOGGED_USER"]["nom_utilisateur"])) : ?>
-
-        <article class="alerte alerte-succes" role="alert">
-            Bonjour <?php echo $_SESSION["LOGGED_USER"]["nom_utilisateur"]; ?> !
-        </article>
-        
-    <?php endif; ?>
     <?php endif; ?>
 
         <!-- inclusion du bas de page du site -->
