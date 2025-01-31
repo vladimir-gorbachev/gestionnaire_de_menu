@@ -28,10 +28,10 @@ require_once(__DIR__ . "/base-donnees.php");
         <!-- inclusion de l'entête du site -->
         <?php require_once(__DIR__ . "/header.php");
 
-       // Récupérer les informations des plats
-       $query = "SELECT plats.id, plats.nom, plats.categorie_id, plats.prix, plats.description, 
-       plats.image, plats.utilisateur_id, categories.nom AS categorie_nom FROM plats 
-       INNER JOIN categories ON plats.categorie_id = categories.id";
+        // Récupérer les informations des plats
+        $query = "SELECT plats.id, plats.nom, plats.categorie_id, plats.prix, plats.description, 
+        plats.image, plats.utilisateur_id, categories.nom AS categorie_nom FROM plats 
+        INNER JOIN categories ON plats.categorie_id = categories.id";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         $plats = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -46,10 +46,12 @@ require_once(__DIR__ . "/base-donnees.php");
                         <p><?= htmlspecialchars($plat['prix']) ?> €</p>
                         <img src="<?= htmlspecialchars($plat['image']) ?>" alt="image de : <?= htmlspecialchars($plat['nom']) ?>">
                         <p><?= htmlspecialchars($plat['description']) ?></p>
-                        <?php if ($plat["utilisateur_id"] == $_SESSION["utilisateur-connecte"]["id"]) : ?>
-                            <?php echo '<a href="./modifier-recette.php"><i class="fa-solid fa-pen"></i> 
-                            Modifier ma recette</a>' ; ?>
-                        <?php endif ; ?>
+                        <?php if ($_SESSION["utilisateur-connecte"]["id"] == $plat["utilisateur_id"]) : ?>
+                            <form action="./modifier-recette.php" method="GET">
+                                <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat["id"] ?>">
+                                <input type="submit" value="Modifier ma recette">
+                            </form>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             </div>

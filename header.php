@@ -17,7 +17,7 @@
                 </li>
             <?php else : ?>
                 <li class="li-connexion">
-                    <?php echo '<a href="connexion.php">Connexion</a>' ?>
+                    <?php echo '<a href="./connexion.php">Connexion</a>' ?>
                 </li>
             <?php endif; ?>
             </ul>
