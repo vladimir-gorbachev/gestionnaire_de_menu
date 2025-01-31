@@ -3,22 +3,23 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
-$query = "SELECT plats.nom FROM plats INNER JOIN categories WHERE plats.categorie_id = categories.id AND plats.categorie_id = 4";
-$stmt=$pdo->prepare($query);
-$stmt -> execute();
-$entrees=$stmt-> fetchAll(PDO::FETCH_ASSOC);
+// Récupération des entrées
+$query = "SELECT id, nom FROM plats WHERE categorie_id = 4";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$entrees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Récupération des plats
+$query1 = "SELECT id, nom FROM plats WHERE categorie_id = 5";
+$stmt1 = $pdo->prepare($query1);
+$stmt1->execute();
+$plats = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+// Récupération des desserts
+$query2 = "SELECT id, nom FROM plats WHERE categorie_id = 6";
+$stmt2 = $pdo->prepare($query2);
+$stmt2->execute();
+$desserts = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-$query1 = "SELECT plats.id, plats.nom FROM plats INNER JOIN categories WHERE plats.categorie_id = categories.id AND plats.categorie_id = 5";
-$stmt1=$pdo->prepare($query1);
-$stmt1 -> execute();
-$plats=$stmt1-> fetchAll(PDO::FETCH_ASSOC);
-
-$query2 = "SELECT plats.nom FROM plats INNER JOIN categories WHERE plats.categorie_id = categories.id AND plats.categorie_id = 6";
-$stmt2=$pdo->prepare($query2);
-$stmt2 -> execute();
-$desserts=$stmt2-> fetchAll(PDO::FETCH_ASSOC);
-
-$nom  = "";
+$nom = "";
 $nomErr = "";
 
 function test_saisie($data) {
@@ -31,21 +32,25 @@ function test_saisie($data) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["nom"])) {
         $nomErr = "Un nom de menu est requis pour la création.";
-    }
-    else {
+    } else {
         $nom = test_saisie($_POST["nom"]);
     }
 
-$sql = "INSERT INTO menu(nom, entree_id, plat_id, dessert_id, prix, utilisateur_id) 
-    VALUES (:nom, :entree_id, :plat_id, :dessert_id, :prix, :utilisateur_id)";
-    $req = $pdo->prepare($sql);
-    if ($req ->execute([":nom"=>$nom, ":categorie_id"=> $_POST["categorie"], ":prix"=>$_POST["prix"], 
-    ":description"=>$description, ":image"=>$_POST["photo"], 
-    ":utilisateur_id" =>$_SESSION["utilisateur-connecte"]["id"]])) {
-        $_SESSION["succesMessage"] = "Votre recette a bien été ajoutée !";
-        $nom = $description = "";
-        header("Location: index.php");
-        exit();
+    if (!empty($nom) && isset($_POST["entree"], $_POST["plat"], $_POST["dessert"], $_POST["prix"])) {
+        $sql = "INSERT INTO menu(nom, entree_id, plat_id, dessert_id, prix, utilisateur_id) 
+                VALUES (:nom, :entree_id, :plat_id, :dessert_id, :prix, :utilisateur_id)";
+        $req = $pdo->prepare($sql);
+        
+        if ($req->execute([
+            ":nom" => $nom,
+            ":entree_id" => $_POST["entree"],
+            ":plat_id" => $_POST["plat"],
+            ":dessert_id" => $_POST["dessert"],
+            ":prix" => $_POST["prix"],
+            ":utilisateur_id" => $_SESSION["utilisateur-connecte"]["id"]
+        ])) {
+            $_SESSION["succesMessage"] = "Votre menu a bien été ajouté !";
+        }
     }
 }
 ?>
@@ -71,67 +76,34 @@ $sql = "INSERT INTO menu(nom, entree_id, plat_id, dessert_id, prix, utilisateur_
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
-    enctype="multipart/form-data">
-
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <h2>Créez votre menu</h2>
 
-        <article class="form-connexion">
-            <label for="nom">Nom du Menu:</label>
-            <input type="text" id="nom" name="nom" placeholder="Nom du menu" required 
-            value="<?php echo htmlspecialchars($nom);?>">
-
-            <?php if (!empty($nomErr)) : ?>
-                <p class="erreur"><?php echo $nomErr;?></p>
-            <?php endif; ?>
-        </article>
+        <label for="nom">Nom du Menu:</label>
+        <input type="text" id="nom" name="nom" required value="<?php echo htmlspecialchars($nom); ?>">
+        <?php if (!empty($nomErr)) echo "<p class='erreur'>$nomErr</p>"; ?>
 
         <label for="entree">Entrée :</label>
-        <input list="entrees" id="entree" name="entree" required>
-        <datalist id="entrees">
-            <?php foreach($entrees as $entree) : ?>
-                <option value="<?php echo $entree["nom"];?>">
-            <?php endforeach; ?>
-        </datalist>
+        <select id="entree" name="entree" required>
+            <?php foreach ($entrees as $entree) echo "<option value='{$entree['id']}'>{$entree['nom']}</option>"; ?>
+        </select>
 
         <label for="plat">Plat :</label>
-        <input list="plats" id="plat" name="plat" required>
-        <datalist id="plats">
-            <?php foreach($plats as $plat) : ?>
-                <option value="<?php $plat["id"];?>"><?php echo $plat["nom"];?></option>
-            <?php endforeach; ?>
-        </datalist>
+        <select id="plat" name="plat" required>
+            <?php foreach ($plats as $plat) echo "<option value='{$plat['id']}'>{$plat['nom']}</option>"; ?>
+        </select>
 
-        <label for="entree">Desserts :</label>
-        <input list="desserts" id="dessert" name="dessert" required>
-        <datalist id="desserts">
-            <?php foreach($desserts as $dessert) : ?>
-                <option value="<?php echo $dessert["nom"];?>">
-            <?php endforeach; ?>
-        </datalist>
+        <label for="dessert">Dessert :</label>
+        <select id="dessert" name="dessert" required>
+            <?php foreach ($desserts as $dessert) echo "<option value='{$dessert['id']}'>{$dessert['nom']}</option>"; ?>
+        </select>
 
-        <article class="form-connexion">
-            <label for="prix">Prix en €:</label>
-            <input type="number" id="prix" name="prix" min="0" placeholder="Prix en €">
-        </article>
-
-
-        <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
-        value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
+        <label for="prix">Prix en €:</label>
+        <input type="number" id="prix" name="prix" min="0" required>
 
         <input type="submit" value="Créer mon menu">
-
     </form>
 
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
-
-<script>
-    const menuHamburger = document.querySelector("#menu-hamburger")
-    const navLinks = document.querySelector(".nav-link")
-
-    menuHamburger.addEventListener("click",()=>{
-    navLinks.classList.toggle("mobile-menu")
-    })
-</script>
 </html>
