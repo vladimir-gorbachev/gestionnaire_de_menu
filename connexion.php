@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "id" => $utilisateur["id"],
                 "nom_utilisateur" => $utilisateur["nom_utilisateur"],
                 "email" => $utilisateur["email"]];
+                
             header("Location: index.php");
             exit();
         } 
