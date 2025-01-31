@@ -39,14 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,14 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Créez votre recette</title>
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+    <title>Création de recette</title>
 </head>
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
-    enctype="multipart/form-data">
+    enctype="multipart/form-data" class="form">
 
         <h2>Créez votre recette</h2>
 
@@ -115,13 +114,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
-
-<script>
-    const menuHamburger = document.querySelector("#menu-hamburger")
-    const navLinks = document.querySelector(".nav-link")
-
-    menuHamburger.addEventListener("click",()=>{
-    navLinks.classList.toggle("mobile-menu")
-    })
-</script>
 </html>

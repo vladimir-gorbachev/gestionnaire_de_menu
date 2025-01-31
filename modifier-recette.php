@@ -20,43 +20,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
 
     // Création de la requête de mise à jour dynamique
-    $updateFields = [];
+    $maj = [];
     $params = [];
 
     if (!empty($nom)) {
-        $updateFields[] = "nom = :nom";
+        $maj[] = "nom = :nom";
         $params[':nom'] = $nom;
     }
 
     if (!empty($categorie_id)) {
-        $updateFields[] = "categorie_id = :categorie_id";
+        $maj[] = "categorie_id = :categorie_id";
         $params[':categorie_id'] = $categorie_id;
     }
 
     if (!empty($prix)) {
-        $updateFields[] = "prix = :prix";
+        $maj[] = "prix = :prix";
         $params[':prix'] = $prix;
     }
 
     if (!empty($description)) {
-        $updateFields[] = "description = :description";
+        $maj[] = "description = :description";
         $params[':description'] = $description;
     }
 
-    if (!empty($updateFields)) {
+    if (!empty($maj)) {
         // Construire la requête SQL avec les champs modifiés
-        $sql = "UPDATE plats SET " . implode(", ", $updateFields) . " WHERE id = :plat_id";
-        $params[':plat_id'] = $plat_id;
-
+        $sql = "UPDATE plats SET " . implode(", ", $maj) . " WHERE id = :plat_id";
+        $params[":plat_id"] = $plat_id;
         $req = $pdo->prepare($sql);
-        
-        // Exécuter la requête
         if ($req->execute($params)) {
             $_SESSION["modificationRecette"] = "Votre recette a bien été modifiée !";
 
             // Récupérer à nouveau les données du plat après la mise à jour
             $req = $pdo->prepare("SELECT * FROM plats WHERE plats.id = :plat_id");
-            $req->execute([':plat_id' => $plat_id]);
+            $req->execute([":plat_id" => $plat_id]);
             $plat = $req->fetch(PDO::FETCH_ASSOC);
         }
     }
@@ -67,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
     <title>Modifiez votre recette</title>
 </head>
 <body>
@@ -88,13 +85,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if (isset($_SESSION["modificationRecette"])) : ?>
         <article class="alerte alerte-succes" role="alert">
             <?php echo $_SESSION["modificationRecette"]; 
-            unset($_SESSION["modificationRecette"]); // Réinitialisation du message ?>
+            unset($_SESSION["modificationRecette"]); ?>
         </article>
     <?php endif; ?>
 
     <form action="modifier-recette.php?plat_id=<?php echo $plat_id ?>" method="POST" 
-    enctype="multipart/form-data">
-
+    enctype="multipart/form-data" class="form">
 
         <h2>Modifiez votre recette</h2>
 
@@ -169,13 +165,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
-
-<script>
-    const menuHamburger = document.querySelector("#menu-hamburger")
-    const navLinks = document.querySelector(".nav-link")
-
-    menuHamburger.addEventListener("click",()=>{
-    navLinks.classList.toggle("mobile-menu")
-    })
-</script>
 </html>

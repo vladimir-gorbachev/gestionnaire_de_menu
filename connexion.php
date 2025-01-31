@@ -57,19 +57,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Plat'form</title>
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+    <title>Connexion</title>
 </head>
 <body>
-    <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
     <!-- Si création de compte, on affiche un message de succès -->
@@ -80,9 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </article>
     <?php endif; ?>
 
+    <!-- Formulaire de connexion à son compte -->
     <?php if (!isset($_SESSION["utilisateur-connecte"])) : ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
 
             <p class="erreur"><?php echo $loginErr; ?></p>
 
@@ -101,7 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </article>
 
             <input type="submit" value="Se connecter">
-            <!-- <a href="#">Mot de passe oublié ?</a> -->
 
             <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
 
@@ -109,16 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php endif; ?>
 
-    <!-- inclusion du bas de page du site -->
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
-
-<script>
-    const menuHamburger = document.querySelector("#menu-hamburger")
-    const navLinks = document.querySelector(".nav-link")
-
-    menuHamburger.addEventListener("click",()=>{
-    navLinks.classList.toggle("mobile-menu")
-    })
-</script>
 </html>

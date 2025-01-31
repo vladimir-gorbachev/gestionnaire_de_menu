@@ -4,7 +4,7 @@ require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
 if (!isset($_GET["menu_id"])) {
-    die("ID de menu non spécifié.");
+    die("Erreur lors de la création du menu.");
 }
 
 $menu_id = $_GET["menu_id"];
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ":menu_id" => $menu_id
     ]);
     
-    $_SESSION["succesMessage"] = "Le menu a bien été mis à jour.";
+    $_SESSION["modificationMenu"] = "Le menu a bien été mis à jour !";
     header("Location: creation-menu.php");
     exit();
 }
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,14 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="./recettes_de_chef.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Plat'form</title>
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+    <title>Modifier le menu</title>
 </head>
 <body>
 <?php require_once(__DIR__ . "/header.php"); ?>
+
     <h2>Modifier le menu</h2>
-    <form action="" method="POST">
+    <form action="" method="POST" class="form">
         <label for="nom">Nom du menu :</label>
         <input type="text" id="nom" name="nom" required value="<?= htmlspecialchars($menu['nom']) ?>">
 
@@ -111,6 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <input type="submit" value="Modifier">
     </form>
+    
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
 </html>

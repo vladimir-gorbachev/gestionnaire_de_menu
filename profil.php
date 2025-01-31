@@ -3,25 +3,11 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php")
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
-</head>
-
-<body>
-    <?php require_once(__DIR__ . "/header.php");?>
-
-    <?php
+<?php
     // Vérifier si l'utilisateur est connecté
     if (!isset($_SESSION["utilisateur-connecte"])) {
-    die("Utilisateur non connecté.");
-}
+        die("Utilisateur non connecté.");
+    }
 
     // Récupération des informations de l'utilisateur
     $utilisateur = $_SESSION["utilisateur-connecte"];
@@ -48,9 +34,10 @@ require_once(__DIR__ . "/base-donnees.php")
         $_SESSION["utilisateur-connecte"]["nom_utilisateur"] = $nouveau_nom_utilisateur;
         $_SESSION["utilisateur-connecte"]["email"] = $nouvel_email;
 
-        // Rediriger pour éviter la resoumission du formulaire
+        $_SESSION["modificationProfil"] = "Votre profil a bien été modifié !";
+        // Rediriger pour éviter la re-soumission du formulaire
         header("Location: profil.php");
-    exit();
+        exit();
     }
     
     // Vérifier si le formulaire a été soumis pour supprimer le profil
@@ -63,18 +50,45 @@ require_once(__DIR__ . "/base-donnees.php")
         // Détruire la session
         session_destroy();
 
-        // Rediriger vers la page d'accueil ou de connexion
-        header("Location: index.php"); // Remplacez "index.php" par la page de votre choix
+        // Rediriger vers la page d'accueil
+        header("Location: index.php");
         exit();
     }
+?>
 
-    ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/ecde10fa93.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+    <title>Mon profil</title>
+</head>
+
+<body>
+    <?php require_once(__DIR__ . "/header.php");?>
+
+    <!-- Si modification de profil, on affiche un message de succès -->
+    <?php if (isset($_SESSION["modificationProfil"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["modificationProfil"]; 
+            unset($_SESSION["modificationProfil"]); ?>
+        </article>
+    <?php endif; ?>
 
     <h1>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h1>
 
-    
-        
-        <form method="POST" action="profil.php" class="form-connexion">
+        <form method="POST" action="profil.php" class="form-connexion" class="form">
             <label>Email :</label>
             <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" readonly required>
 
@@ -91,4 +105,3 @@ require_once(__DIR__ . "/base-donnees.php")
     <?php include 'footer.php'; ?>
 </body>
 </html>
-

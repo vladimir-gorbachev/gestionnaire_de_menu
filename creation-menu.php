@@ -8,11 +8,13 @@ $query = "SELECT id, nom FROM plats WHERE categorie_id = 4";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $entrees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Récupération des plats
 $query1 = "SELECT id, nom FROM plats WHERE categorie_id = 5";
 $stmt1 = $pdo->prepare($query1);
 $stmt1->execute();
 $plats = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
 // Récupération des desserts
 $query2 = "SELECT id, nom FROM plats WHERE categorie_id = 6";
 $stmt2 = $pdo->prepare($query2);
@@ -30,8 +32,8 @@ function test_saisie($data) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["delete_menu"])) {
-        $menu_id = $_POST["delete_menu"];
+    if (isset($_POST["supprimerMenu"])) {
+        $menu_id = $_POST["supprimerMenu"];
         $sql = "DELETE FROM menu WHERE id = :menu_id";
         $req = $pdo->prepare($sql);
         $req->execute([":menu_id" => $menu_id]);
@@ -55,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ":prix" => $_POST["prix"],
                 ":utilisateur_id" => $_SESSION["utilisateur-connecte"]["id"]
             ])) {
-                $_SESSION["succesMessage"] = "Votre menu a bien été ajouté !";
+                $_SESSION["ajoutMenu"] = "Votre menu a bien été ajouté !";
             }
         }
     }
@@ -77,7 +79,7 @@ $menus = $stmtMenus->fetchAll(PDO::FETCH_ASSOC);
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,14 +90,29 @@ $menus = $stmtMenus->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="./recettes_de_cheffes.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Plat'form</title>
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
+    <title>Création de menu</title>
 </head>
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <!-- Si ajout de menu, on affiche un message de succès -->
+    <?php if (isset($_SESSION["ajoutMenu"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["ajoutMenu"]; 
+            unset($_SESSION["ajoutMenu"]); // Réinitialisation du message ?>
+        </article>
+    <?php endif; ?>
+
+    <!-- Si modification de menu, on affiche un message de succès -->
+    <?php if (isset($_SESSION["modificationMenu"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["modificationMenu"]; 
+            unset($_SESSION["modificationMenu"]); // Réinitialisation du message ?>
+        </article>
+    <?php endif; ?>
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
         <h2>Créez votre menu</h2>
 
         <label for="nom">Nom du Menu:</label>
@@ -134,7 +151,7 @@ $menus = $stmtMenus->fetchAll(PDO::FETCH_ASSOC);
                     <p>Dessert<br> <?= htmlspecialchars($menu['dessert_nom']) ?></p>
                     <p>Prix: <?= htmlspecialchars($menu['prix']) ?> €</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                        <input type="hidden" name="delete_menu" value="<?= $menu['id'] ?>">
+                        <input type="hidden" name="supprimerMenu" value="<?= $menu['id'] ?>">
                         <input type="submit" value="Supprimer">
                     </form>
                     <form action="modifier-menu.php" method="GET" style="display:inline;">

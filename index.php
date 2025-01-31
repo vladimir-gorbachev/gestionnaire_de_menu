@@ -7,7 +7,7 @@ require_once(__DIR__ . "/base-donnees.php")
 <html lang="fr ">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content=" ">
+    <meta name="description" content="Gestionnaire de menu pour restaurateurs">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Noa Cengarle, Armelle Pouzioux, Vladimir Gorbachev">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +19,10 @@ require_once(__DIR__ . "/base-donnees.php")
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./img/favicon.png" type="image/x-icon">
-    <title>Plat'form</title>
+    <title>Plat'form - accueil</title>
 </head>
 <body>
-    <!-- inclusion de l'entête du site -->
+    <!-- Entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
     <!-- Si ajout de recette, on affiche un message de succès -->
@@ -55,16 +55,7 @@ require_once(__DIR__ . "/base-donnees.php")
         </a>
     </section>
 
-    <!-- inclusion du bas de page du site -->
+    <!-- Bas de page du site -->
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
-
-<script>
-    const menuHamburger = document.querySelector("#menu-hamburger")
-    const navLinks = document.querySelector(".nav-link")
-
-    menuHamburger.addEventListener("click",()=>{
-    navLinks.classList.toggle("mobile-menu")
-    })
-</script>
 </html>
