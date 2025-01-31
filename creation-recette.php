@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Plat'form</title>
+    <title>Créez votre recette</title>
 </head>
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
