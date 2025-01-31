@@ -25,6 +25,22 @@ require_once(__DIR__ . "/base-donnees.php")
     <!-- inclusion de l'entête du site -->
     <?php require_once(__DIR__ . "/header.php"); ?>
 
+    <!-- Si ajout de recette, on affiche un message de succès -->
+    <?php if (isset($_SESSION["ajoutRecette"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["ajoutRecette"]; 
+            unset($_SESSION["ajoutRecette"]); // Réinitialisation du message ?>
+        </article>
+    <?php endif; ?>
+
+    <!-- Si suppression de recette, on affiche un message de succès -->
+    <?php if (isset($_SESSION["suppressionRecette"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["suppressionRecette"];
+            unset($_SESSION["suppressionRecette"]); ?>
+        </article>
+    <?php endif; ?>
+
     <section class="onglets">
         <a href="recettes_de_chef.php" class="onglet">
             <img src="img/ONGLET DECOUVREZ.png" alt="Découvrez nos recettes de Chef.fes">
