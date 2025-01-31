@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once(__DIR__ . "/base-donnees.php")
+require_once(__DIR__ . "/base-donnees.php");
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +18,9 @@ require_once(__DIR__ . "/base-donnees.php")
         <?php require_once(__DIR__ . "/header.php");
 
        // Récupérer les informations des plats
-        $query = "SELECT plats.id, plats.nom, categorie_id, prix, description, image, utilisateur_id FROM plats 
-        INNER JOIN categories WHERE plats.categorie_id = categories.id";
+       $query = "SELECT plats.id, plats.nom, plats.categorie_id, plats.prix, plats.description, 
+       plats.image, plats.utilisateur_id, categories.nom AS categorie_nom FROM plats 
+       INNER JOIN categories ON plats.categorie_id = categories.id";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         $plats = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +31,7 @@ require_once(__DIR__ . "/base-donnees.php")
                 <?php foreach ($plats as $plat): ?>
                     <div class="onglet">
                         <h2><?= htmlspecialchars($plat['nom']) ?></h2>
-                        <p><?= htmlspecialchars($plat['categorie_id']) ?></p>
+                        <p><?= htmlspecialchars($plat['categorie_nom']) ?></p>
                         <p><?= htmlspecialchars($plat['prix']) ?> €</p>
                         <img src="<?= htmlspecialchars($plat['image']) ?>" alt="image de : <?= htmlspecialchars($plat['nom']) ?>">
                         <p><?= htmlspecialchars($plat['description']) ?></p>
