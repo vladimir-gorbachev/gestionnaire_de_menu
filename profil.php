@@ -29,28 +29,62 @@ require_once(__DIR__ . "/base-donnees.php")
     $nom_utilisateur = $utilisateur["nom_utilisateur"];
     $email = $utilisateur["email"];
 
+    // Vérifier si le formulaire a été soumis pour modifier le nom d'utilisateur
+    if (isset($_POST['modifier_nom_utilisateur'])) {
+        // Récupérer les nouvelles valeurs
+        $nouveau_nom_utilisateur = $_POST['nom_utilisateur'];
+        $nouvel_email = $_POST['email'];
+
+        // Mettre à jour la base de données
+        $sql = "UPDATE utilisateurs SET nom_utilisateur = :nom_utilisateur, email = :email WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':nom_utilisateur' => $nouveau_nom_utilisateur,
+            ':email' => $nouvel_email,
+            ':id' => $utilisateur_id
+        ]);
+
+        // Mettre à jour la session avec les nouvelles valeurs
+        $_SESSION["utilisateur-connecte"]["nom_utilisateur"] = $nouveau_nom_utilisateur;
+        $_SESSION["utilisateur-connecte"]["email"] = $nouvel_email;
+
+        // Rediriger pour éviter la resoumission du formulaire
+        header("Location: profil.php");
+    exit();
+    }
+    
+    // Vérifier si le formulaire a été soumis pour supprimer le profil
+    if (isset($_POST['supprimer_profil'])) {
+        // Supprimer l'utilisateur de la base de données
+        $sql = "DELETE FROM utilisateurs WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':id' => $utilisateur_id]);
+
+        // Détruire la session
+        session_destroy();
+
+        // Rediriger vers la page d'accueil ou de connexion
+        header("Location: index.php"); // Remplacez "index.php" par la page de votre choix
+        exit();
+    }
+
     ?>
 
     <h1>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h1>
         
         <form method="POST" action="profil.php">
-            <input type="hidden" name="utilisateur_id" value="<?= $utilisateur_id ?>">
-
-            <label>Nom d'utilisateur :</label>
-            <input type="text" name="nom_utilisateur" value="<?= htmlspecialchars($nom_utilisateur) ?>" required>
-            
-            <button type="submit" name="modifier_profil">Modifier nom d'utilisateur </button>
             <label>Email :</label>
-            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" readonly required>
 
-            <button type="submit" name="modifier_profil">Modifier email</button>
+            <label>Nom d'utilisateur :</label> 
+            <input type="text" name="nom_utilisateur" value="<?= htmlspecialchars($nom_utilisateur) ?>" required>
+            <input type="submit" name="modifier_nom_utilisateur" value="Modifier nom d'utilisateur"> </button> 
+
+            <li class="li-connexion"> <?php echo '<a href="deconnexion.php" >Déconnexion</a>' ?>
+            </li>
+            <li class="li-connexion"><button type="submit" name="supprimer_profil" value="supprimer profil"></button>
+            </li>
             
-            <label>Nouveau mot de passe :</label>
-            <input type="password" name="nouveau_mot_de_passe" placeholder="Laisser vide pour ne pas changer">
-            
-            <button type="submit" name="modifier_profil">Modifier mot de passe</button>
-            <?php echo '<a href="deconnexion.php">Déconnexion</a>' ?>
-            <button type="submit" name="modifier_profil">supprimer profil</button>
         </form>
 
 
