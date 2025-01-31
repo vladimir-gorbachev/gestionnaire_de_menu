@@ -3,8 +3,10 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
-$plat_id = $_GET["plat_id"];
-$nom = $categorie_id = $prix = $description = "";
+$plat_id = isset($_GET["plat_id"]) ? $_GET["plat_id"] : null;
+if ($plat_id === null) {
+    die("Erreur : plat_id manquant.");
+}
 
 $sql = "SELECT * FROM plats WHERE plats.id = $plat_id";
 $req = $pdo->prepare($sql);
@@ -12,11 +14,51 @@ $req->execute();
 $plat = $req->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $sql = "UPDATE plats SET nom = $nom, categorie_id = $categorie_id, prix = $prix, description = $description
-    WHERE plat_id = $plat_id";
-    $req = $pdo->prepare($sql);
-    if ($req ->execute()) {
-        $_SESSION["succesMessage"] = "Votre recette a bien été modifiée !";
+    $nom = $_POST["nom"];
+    $categorie_id = $_POST["categorie"];
+    $prix = $_POST["prix"];
+    $description = $_POST["description"];
+
+    // Création de la requête de mise à jour dynamique
+    $updateFields = [];
+    $params = [];
+
+    if (!empty($nom)) {
+        $updateFields[] = "nom = :nom";
+        $params[':nom'] = $nom;
+    }
+
+    if (!empty($categorie_id)) {
+        $updateFields[] = "categorie_id = :categorie_id";
+        $params[':categorie_id'] = $categorie_id;
+    }
+
+    if (!empty($prix)) {
+        $updateFields[] = "prix = :prix";
+        $params[':prix'] = $prix;
+    }
+
+    if (!empty($description)) {
+        $updateFields[] = "description = :description";
+        $params[':description'] = $description;
+    }
+
+    if (!empty($updateFields)) {
+        // Construire la requête SQL avec les champs modifiés
+        $sql = "UPDATE plats SET " . implode(", ", $updateFields) . " WHERE id = :plat_id";
+        $params[':plat_id'] = $plat_id;
+
+        $req = $pdo->prepare($sql);
+        
+        // Exécuter la requête
+        if ($req->execute($params)) {
+            $_SESSION["modificationRecette"] = "Votre recette a bien été modifiée !";
+
+            // Récupérer à nouveau les données du plat après la mise à jour
+            $req = $pdo->prepare("SELECT * FROM plats WHERE plats.id = :plat_id");
+            $req->execute([':plat_id' => $plat_id]);
+            $plat = $req->fetch(PDO::FETCH_ASSOC);
+        }
     }
 }
 ?>
@@ -43,26 +85,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php require_once(__DIR__ . "/header.php"); ?>
 
     <!-- Si modification de recette, on affiche un message de succès -->
-    <?php if (isset($_SESSION["succesMessage"])) : ?>
+    <?php if (isset($_SESSION["modificationRecette"])) : ?>
         <article class="alerte alerte-succes" role="alert">
-            <?php echo $_SESSION["succesMessage"]; ?>
+            <?php echo $_SESSION["modificationRecette"]; 
+            unset($_SESSION["modificationRecette"]); // Réinitialisation du message ?>
         </article>
     <?php endif; ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
+    <form action="modifier-recette.php?plat_id=<?php echo $plat_id ?>" method="POST" 
     enctype="multipart/form-data">
+
 
         <h2>Modifiez votre recette</h2>
 
         <article class="form-connexion">
             <label for="nom">Nom de la recette:</label>
             <input type="text" id="nom" name="nom" placeholder="<?php echo $plat["nom"] ?>" 
-            value="">
+            value="<?php echo htmlspecialchars($plat["nom"]); ?>">
         </article>
 
         <article class="form-connexion">
             <?php if ($plat["categorie_id"] == 4) : ?>
-                <input type="radio" id="entree" name="categorie" value="4" <?php echo "checked"; ?>>
+                <input type="radio" id="entree" name="categorie" value="4" 
+                <?php echo ($plat["categorie_id"] == 4) ? 'checked' : ''; ?>>
                 <label for="entree">Entrée</label>
                 <input type="radio" id="plat" name="categorie" value="5">
                 <label for="plat">Plat principal</label>
@@ -72,7 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if ($plat["categorie_id"] == 5) : ?>
                 <input type="radio" id="entree" name="categorie" value="4">
                 <label for="entree">Entrée</label>
-                <input type="radio" id="plat" name="categorie" value="5" <?php echo "checked"; ?>>
+                <input type="radio" id="plat" name="categorie" value="5" 
+                <?php echo ($plat["categorie_id"] == 5) ? 'checked' : ''; ?>>
                 <label for="plat">Plat principal</label>
                 <input type="radio" id="dessert" name="categorie" value="6">
                 <label for="dessert">Dessert</label>
@@ -82,7 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="entree">Entrée</label>
                 <input type="radio" id="plat" name="categorie" value="5">
                 <label for="plat">Plat principal</label>
-                <input type="radio" id="dessert" name="categorie" value="6" <?php echo "checked"; ?>>
+                <input type="radio" id="dessert" name="categorie" value="6" 
+                <?php echo ($plat["categorie_id"] == 6) ? 'checked' : ''; ?>>
                 <label for="dessert">Dessert</label>
             <?php endif ; ?>
         </article>
@@ -90,13 +137,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <article class="form-connexion">
             <label for="prix">Prix en €:</label>
             <input type="number" id="prix" name="prix" min="0" placeholder="<?php echo $plat["prix"] ?>" 
-            value="">
+            value="<?php echo htmlspecialchars($plat["prix"]); ?>">
         </article>
 
         <article class="form-connexion">
             <label for="description">Description:</label>
             <textarea id="description" name="description" 
-            placeholder="<?php echo $plat["description"] ?>"></textarea>
+            placeholder="<?php echo $plat["description"] ?>"><?php 
+            echo htmlspecialchars($plat["description"]); ?></textarea>
         </article>
 
         <article class="form-connexion">
@@ -106,6 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
         value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
+
+        <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat_id ?>">
 
         <input type="submit" value="Modifier ma recette">
 

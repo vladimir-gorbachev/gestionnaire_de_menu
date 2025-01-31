@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($req ->execute([":nom"=>$nom, ":categorie_id"=> $_POST["categorie"], ":prix"=>$_POST["prix"], 
     ":description"=>$description, ":image"=>$_POST["photo"], 
     ":utilisateur_id"=>$_SESSION["utilisateur-connecte"]["id"]])) {
-        $_SESSION["succesMessage"] = "Votre recette a bien été ajoutée !";
+        $_SESSION["ajoutRecette"] = "Votre recette a bien été ajoutée !";
         $nom = $description = "";
         header("Location: index.php");
         exit();

@@ -75,7 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Si création de compte, on affiche un message de succès -->
     <?php if (isset($_SESSION["succesMessage"])) : ?>
         <article class="alerte alerte-succes" role="alert">
-            <?php echo $_SESSION["succesMessage"]; ?>
+            <?php echo $_SESSION["succesMessage"]; 
+            unset($_SESSION["succesMessage"]); // Réinitialisation du message?>
         </article>
     <?php endif; ?>
 
