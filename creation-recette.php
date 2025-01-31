@@ -77,14 +77,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
         </article>
 
-        <article class="form-connexion">
-            <input type="radio" id="entree" name="categorie" value="4" checked>
-            <label for="entree">Entrée</label>
-            <input type="radio" id="plat" name="categorie" value="5">
-            <label for="plat">Plat principal</label>
-            <input type="radio" id="dessert" name="categorie" value="6">
-            <label for="dessert">Dessert</label>
-        </article>
+        <section class="form-radio">
+            <article class="radio">
+                <input type="radio" id="entree" name="categorie" value="4" checked>
+                <label for="entree">Entrée</label>
+            </article>
+            <article class="radio">
+                <input type="radio" id="plat" name="categorie" value="5">
+                <label for="plat">Plat principal</label>
+            </article>
+            <article class="radio">
+                <input type="radio" id="dessert" name="categorie" value="6">
+                <label for="dessert">Dessert</label>
+            </article>
+        </section>
 
         <article class="form-connexion">
             <label for="prix">Prix en €:</label>
@@ -93,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <article class="form-connexion">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
+            <textarea id="description" name="description" placeholder="Description" required></textarea>
 
             <?php if (!empty($descriptionErr)) : ?>
                 <p class="erreur"><?php echo $descriptionErr;?></p>
