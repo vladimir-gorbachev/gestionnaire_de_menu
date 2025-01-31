@@ -12,6 +12,7 @@ require_once(__DIR__ . "/base-donnees.php")
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="profil.css">
+    <link rel="icon" href="./img/favicon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -71,21 +72,21 @@ require_once(__DIR__ . "/base-donnees.php")
     ?>
 
     <h1>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h1>
+
+    
         
-        <form method="POST" action="profil.php">
+        <form method="POST" action="profil.php" class="form-connexion">
             <label>Email :</label>
             <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" readonly required>
 
             <label>Nom d'utilisateur :</label> 
             <input type="text" name="nom_utilisateur" value="<?= htmlspecialchars($nom_utilisateur) ?>" required>
             <input type="submit" name="modifier_nom_utilisateur" value="Modifier nom d'utilisateur"> </button> 
-
-            <li class="li-connexion"> <?php echo '<a href="deconnexion.php" >Déconnexion</a>' ?>
-            </li>
-            <li class="li-connexion"><button type="submit" name="supprimer_profil" value="supprimer profil"></button>
-            </li>
             
+            <input type="submit" id="supprimer_profil_bouton" name="supprimer_profil" value="supprimer profil">
+                  
         </form>
+        <li class="li-connexion"> <?php echo '<a href="deconnexion.php" >Déconnexion</a>' ?></li>
 
 
     <?php include 'footer.php'; ?>
