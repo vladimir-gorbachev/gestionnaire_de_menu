@@ -1,9 +1,5 @@
 <header>
-    <nav class="navbar">
-        <article class="nav-link">
-            <ul>
-                <li class="li-logo-mobile"><a href="index.php"><img src ="img\logo_responsive.png" alt="logo responsive"></a></li>
-                <li class="li-logo"><a href="index.php"><img src="img\logo.png" alt="logo"></a></li>
+    
     <nav class="navbar">
         <article class="nav-link">
             <ul>
@@ -12,8 +8,7 @@
 
                 <!-- Si utilisateur/trice bien connecté.e, on affiche le menu, un message d'accueil 
                  et bouton déconnexion -->
-                <!-- Si utilisateur/trice bien connecté.e, on affiche le menu, un message d'accueil 
-                 et bouton déconnexion -->
+               
             <?php if (isset($_SESSION["utilisateur-connecte"]["nom_utilisateur"])) : ?>
                 <li><a href="recettes_de_chef.php">Découvrez</a></li>
                 <li><a href="creation-recette.php">Créez</a></li>
