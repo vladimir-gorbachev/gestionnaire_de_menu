@@ -4,7 +4,6 @@
 --
 -- Hôte : 127.0.0.1:3306
 -- Généré le : mer. 29 jan. 2025 à 15:48
--- Généré le : mer. 29 jan. 2025 à 15:48
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -26,28 +25,19 @@ SET time_zone = "+00:00";
 
 --
 -- Structure de la table `categories`
--- Structure de la table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE IF NOT EXISTS `categories` (
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `categories`
--- Déchargement des données de la table `categories`
 --
 
-INSERT INTO `categories` (`id`, `nom`) VALUES
-(4, 'Entrée'),
-(5, 'Plat'),
-(6, 'Dessert');
 INSERT INTO `categories` (`id`, `nom`) VALUES
 (4, 'Entrée'),
 (5, 'Plat'),
@@ -57,11 +47,8 @@ INSERT INTO `categories` (`id`, `nom`) VALUES
 
 --
 -- Structure de la table `ingredients`
--- Structure de la table `ingredients`
 --
 
-DROP TABLE IF EXISTS `ingredients`;
-CREATE TABLE IF NOT EXISTS `ingredients` (
 DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE IF NOT EXISTS `ingredients` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -108,22 +95,9 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `utilisateur_id` int NOT NULL,
   `partage` tinyint(1) NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `utilisateur_id` int NOT NULL,
-  `partage` tinyint(1) NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `prix` decimal(10,2) NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `menus`
---
-
-INSERT INTO `menus` (`id`, `nom`, `utilisateur_id`, `partage`, `description`, `prix`, `image`) VALUES
-(3, 'Menu exemple', 1, 1, '', 13.00, '');
   KEY `utilisateur_id` (`utilisateur_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -138,31 +112,14 @@ INSERT INTO `menus` (`id`, `nom`, `utilisateur_id`, `partage`, `description`, `p
 
 --
 -- Structure de la table `menu_plats`
--- Structure de la table `menu_plats`
 --
 
-DROP TABLE IF EXISTS `menu_plats`;
-CREATE TABLE IF NOT EXISTS `menu_plats` (
 DROP TABLE IF EXISTS `menu_plats`;
 CREATE TABLE IF NOT EXISTS `menu_plats` (
   `id` int NOT NULL AUTO_INCREMENT,
   `menu_id` int NOT NULL,
   `plats_id` int NOT NULL,
-  `plats_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `menu_id` (`menu_id`) USING BTREE,
-  KEY `plats_id` (`plats_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `menu_plats`
---
-
-INSERT INTO `menu_plats` (`id`, `menu_id`, `plats_id`) VALUES
-(1, 3, 1),
-(5, 3, 1),
-(6, 3, 2),
-(7, 3, 3);
   KEY `menu_id` (`menu_id`) USING BTREE,
   KEY `plats_id` (`plats_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -187,26 +144,18 @@ DROP TABLE IF EXISTS `plats`;
 CREATE TABLE IF NOT EXISTS `plats` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) NOT NULL,
-  `nom` varchar(100) NOT NULL,
   `categorie_id` int NOT NULL,
-  `prix` decimal(6,2) NOT NULL,
-  `description` text NOT NULL,
   `prix` decimal(6,2) NOT NULL,
   `description` text NOT NULL,
   `image` varchar(255) NOT NULL,
   `utilisateur_id` int NOT NULL,
   `partage` tinyint(1) NOT NULL,
-  `partage` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
-  KEY `categorie_id` (`categorie_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
   KEY `utilisateur_id` (`utilisateur_id`) USING BTREE,
   KEY `categorie_id` (`categorie_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `plats`
 -- Déchargement des données de la table `plats`
 --
 
@@ -219,49 +168,14 @@ INSERT INTO `plats` (`id`, `nom`, `categorie_id`, `prix`, `description`, `image`
 
 --
 -- Structure de la table `plats_ingredients`
--- Structure de la table `plats_ingredients`
 --
 
-DROP TABLE IF EXISTS `plats_ingredients`;
-CREATE TABLE IF NOT EXISTS `plats_ingredients` (
 DROP TABLE IF EXISTS `plats_ingredients`;
 CREATE TABLE IF NOT EXISTS `plats_ingredients` (
   `id` int NOT NULL AUTO_INCREMENT,
   `plat_id` int NOT NULL,
   `ingredient_id` int NOT NULL,
-  `plat_id` int NOT NULL,
-  `ingredient_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `plat_id` (`plat_id`) USING BTREE,
-  KEY `ingredient_id` (`ingredient_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `plats_ingredients`
---
-
-INSERT INTO `plats_ingredients` (`id`, `plat_id`, `ingredient_id`) VALUES
-(77, 1, 1),
-(80, 1, 2),
-(82, 1, 3),
-(84, 1, 4),
-(87, 1, 5),
-(89, 1, 6),
-(93, 1, 7),
-(95, 2, 8),
-(96, 2, 9),
-(97, 2, 10),
-(98, 2, 11),
-(99, 2, 12),
-(100, 2, 13),
-(101, 2, 14),
-(102, 3, 15),
-(103, 3, 15),
-(104, 3, 16),
-(105, 3, 17),
-(106, 3, 18),
-(107, 3, 19),
-(108, 3, 20);
   KEY `plat_id` (`plat_id`) USING BTREE,
   KEY `ingredient_id` (`ingredient_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -317,15 +231,6 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 INSERT INTO `utilisateurs` (`id`, `nom_utilisateur`, `mot_de_passe`, `email`) VALUES
 (1, 'vladimir', 'vladimir', 'vladimir.gorbachev@laplateforme.io'),
 (3, 'utilisateur', 'utilisateur', 'utilisateur@laplateforme.io');
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `utilisateurs`
---
-
-INSERT INTO `utilisateurs` (`id`, `nom_utilisateur`, `mot_de_passe`, `email`) VALUES
-(1, 'vladimir', 'vladimir', 'vladimir.gorbachev@laplateforme.io'),
-(3, 'utilisateur', 'utilisateur', 'utilisateur@laplateforme.io');
 
 --
 -- Contraintes pour les tables déchargées
@@ -336,15 +241,10 @@ INSERT INTO `utilisateurs` (`id`, `nom_utilisateur`, `mot_de_passe`, `email`) VA
 --
 ALTER TABLE `menus`
   ADD CONSTRAINT `fk_menus_utilisateur_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-  ADD CONSTRAINT `fk_menus_utilisateur_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `menu_plats`
--- Contraintes pour la table `menu_plats`
 --
-ALTER TABLE `menu_plats`
-  ADD CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_menu_plats_plat_id` FOREIGN KEY (`plats_id`) REFERENCES `plats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `menu_plats`
   ADD CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_menu_plats_plat_id` FOREIGN KEY (`plats_id`) REFERENCES `plats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -355,16 +255,10 @@ ALTER TABLE `menu_plats`
 ALTER TABLE `plats`
   ADD CONSTRAINT `fk_categorie_id` FOREIGN KEY (`categorie_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_utilisateur_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-  ADD CONSTRAINT `fk_categorie_id` FOREIGN KEY (`categorie_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_utilisateur_id` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `plats_ingredients`
--- Contraintes pour la table `plats_ingredients`
 --
-ALTER TABLE `plats_ingredients`
-  ADD CONSTRAINT `fk_ingrédient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_plat_id` FOREIGN KEY (`plat_id`) REFERENCES `plats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `plats_ingredients`
   ADD CONSTRAINT `fk_ingrédient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_plat_id` FOREIGN KEY (`plat_id`) REFERENCES `plats` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

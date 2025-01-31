@@ -3,42 +3,7 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
-$nom = $description = "";
-$nomErr = $descriptionErr = "";
-
-function test_saisie($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["nom"])) {
-        $nomErr = "Un nom de recette est requis pour la création.";
-    }
-    else {
-        $nom = test_saisie($_POST["nom"]);
-    }
-    if (empty($_POST["description"])) {
-        $descriptionErr = "Une description de la recette est requise pour la création.";
-    }
-    else {
-        $description = test_saisie($_POST["description"]);
-    }
-
-    $sql = "INSERT INTO plats(nom, categorie_id, prix, description, image, utilisateur_id) 
-    VALUES (:nom, :categorie_id, :prix, :description, :image, :utilisateur_id)";
-    $req = $pdo->prepare($sql);
-    if ($req ->execute([":nom"=>$nom, ":categorie_id"=> $_POST["categorie"], ":prix"=>$_POST["prix"], 
-    ":description"=>$description, ":image"=>$_POST["photo"], 
-    ":utilisateur_id"=>$_SESSION["utilisateur-connecte"]["id"]])) {
-        $_SESSION["succesMessage"] = "Votre recette a bien été ajoutée !";
-        $nom = $description = "";
-        header("Location: index.php");
-        exit();
-    }
-}
+$sql = 'SELECT * FROM plats WHERE plats.id = $_GET["plat_id"]';
 
 ?>
 
@@ -58,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <link rel="stylesheet" href="./style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <title>Créez votre recette</title>
+    <title>Modifiez votre recette</title>
 </head>
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
@@ -66,16 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
     enctype="multipart/form-data">
 
-        <h2>Créez votre recette</h2>
+        <h2>Modifiez votre recette</h2>
 
         <article class="form-connexion">
-            <label for="nom">Nom de la recette:</label>
-            <input type="text" id="nom" name="nom" placeholder="Nom de la recette" required 
-            value="<?php echo htmlspecialchars($nom);?>">
-
-            <?php if (!empty($nomErr)) : ?>
-                <p class="erreur"><?php echo $nomErr;?></p>
-            <?php endif; ?>
+            <label for="nom">Nom de la recette:<?php echo $_GET["plat_id"] ?></label>
+            <input type="text" id="nom" name="nom" placeholder="Nom de la recette" required>
         </article>
 
         <article class="form-connexion">
@@ -95,10 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <article class="form-connexion">
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>
-
-            <?php if (!empty($descriptionErr)) : ?>
-                <p class="erreur"><?php echo $descriptionErr;?></p>
-            <?php endif; ?>
         </article>
 
         <article class="form-connexion">
@@ -109,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
         value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
 
-        <input type="submit" value="Créer ma recette">
+        <input type="submit" value="Modifier ma recette">
 
     </form>
 
