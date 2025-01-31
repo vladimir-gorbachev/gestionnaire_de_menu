@@ -161,6 +161,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </form>
 
+    <form action="supprimer-recette.php" method="POST">
+        <input type="hidden" name="plat_id" value="<?php echo $plat_id; ?>">
+        <input type="submit" value="Supprimer ma recette" 
+        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">
+    </form>
+
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>
 
