@@ -295,11 +295,9 @@ figcaption {
     border: none;
     justify-content: center;
     align-self: center;
-    transition: font-size 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 #supprimer_profil_bouton:hover {
-    font-size: 20px;
     text-decoration: underline;
 }
 
