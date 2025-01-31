@@ -3,8 +3,22 @@ session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
 
-$sql = 'SELECT * FROM plats WHERE plats.id = $_GET["plat_id"]';
+$plat_id = $_GET["plat_id"];
+$nom = $categorie_id = $prix = $description = "";
 
+$sql = "SELECT * FROM plats WHERE plats.id = $plat_id";
+$req = $pdo->prepare($sql);
+$req->execute();
+$plat = $req->fetch(PDO::FETCH_ASSOC);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $sql = "UPDATE plats SET nom = $nom, categorie_id = $categorie_id, prix = $prix, description = $description
+    WHERE plat_id = $plat_id";
+    $req = $pdo->prepare($sql);
+    if ($req ->execute()) {
+        $_SESSION["succesMessage"] = "Votre recette a bien été modifiée !";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,33 +42,61 @@ $sql = 'SELECT * FROM plats WHERE plats.id = $_GET["plat_id"]';
 <body>
     <?php require_once(__DIR__ . "/header.php"); ?>
 
+    <!-- Si modification de recette, on affiche un message de succès -->
+    <?php if (isset($_SESSION["succesMessage"])) : ?>
+        <article class="alerte alerte-succes" role="alert">
+            <?php echo $_SESSION["succesMessage"]; ?>
+        </article>
+    <?php endif; ?>
+
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
     enctype="multipart/form-data">
 
         <h2>Modifiez votre recette</h2>
 
         <article class="form-connexion">
-            <label for="nom">Nom de la recette:<?php echo $_GET["plat_id"] ?></label>
-            <input type="text" id="nom" name="nom" placeholder="Nom de la recette" required>
+            <label for="nom">Nom de la recette:</label>
+            <input type="text" id="nom" name="nom" placeholder="<?php echo $plat["nom"] ?>" 
+            value="">
         </article>
 
         <article class="form-connexion">
-            <input type="radio" id="entree" name="categorie" value="4" checked>
-            <label for="entree">Entrée</label>
-            <input type="radio" id="plat" name="categorie" value="5">
-            <label for="plat">Plat principal</label>
-            <input type="radio" id="dessert" name="categorie" value="6">
-            <label for="dessert">Dessert</label>
+            <?php if ($plat["categorie_id"] == 4) : ?>
+                <input type="radio" id="entree" name="categorie" value="4" <?php echo "checked"; ?>>
+                <label for="entree">Entrée</label>
+                <input type="radio" id="plat" name="categorie" value="5">
+                <label for="plat">Plat principal</label>
+                <input type="radio" id="dessert" name="categorie" value="6">
+                <label for="dessert">Dessert</label>
+            <?php endif ; ?>
+            <?php if ($plat["categorie_id"] == 5) : ?>
+                <input type="radio" id="entree" name="categorie" value="4">
+                <label for="entree">Entrée</label>
+                <input type="radio" id="plat" name="categorie" value="5" <?php echo "checked"; ?>>
+                <label for="plat">Plat principal</label>
+                <input type="radio" id="dessert" name="categorie" value="6">
+                <label for="dessert">Dessert</label>
+            <?php endif ; ?>
+            <?php if ($plat["categorie_id"] == 6) : ?>
+                <input type="radio" id="entree" name="categorie" value="4">
+                <label for="entree">Entrée</label>
+                <input type="radio" id="plat" name="categorie" value="5">
+                <label for="plat">Plat principal</label>
+                <input type="radio" id="dessert" name="categorie" value="6" <?php echo "checked"; ?>>
+                <label for="dessert">Dessert</label>
+            <?php endif ; ?>
         </article>
 
         <article class="form-connexion">
             <label for="prix">Prix en €:</label>
-            <input type="number" id="prix" name="prix" min="0" placeholder="Prix en €">
+            <input type="number" id="prix" name="prix" min="0" placeholder="<?php echo $plat["prix"] ?>" 
+            value="">
         </article>
 
         <article class="form-connexion">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
+            <textarea id="description" name="description" 
+            placeholder="<?php echo $plat["description"] ?>"></textarea>
         </article>
 
         <article class="form-connexion">
