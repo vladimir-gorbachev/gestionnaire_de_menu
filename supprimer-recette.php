@@ -2,6 +2,7 @@
 session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
+require_once(__DIR__ . "/est-connecte.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $plat_id = $_POST["plat_id"] ?? null;

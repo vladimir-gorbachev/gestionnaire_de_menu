@@ -2,6 +2,7 @@
 session_start();
 require_once(__DIR__ . "/base-donnees.php");
 require_once(__DIR__ . "/est-connecte.php");
+require_once(__DIR__ . "/verif-activite.php");
 
 $nom = $description = "";
 $nomErr = $descriptionErr = "";
@@ -67,55 +68,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <h2>Créez votre recette</h2>
 
-        <article class="form-connexion">
-            <label for="nom">Nom de la recette:</label>
-            <input type="text" id="nom" name="nom" placeholder="Nom de la recette" required 
-            value="<?php echo htmlspecialchars($nom);?>">
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label for="nom">Nom de la recette:</label>
+                <input type="text" id="nom" name="nom" placeholder="Nom de la recette" required 
+                value="<?php echo htmlspecialchars($nom);?>">
 
-            <?php if (!empty($nomErr)) : ?>
-                <p class="erreur"><?php echo $nomErr;?></p>
-            <?php endif; ?>
-        </article>
+                <?php if (!empty($nomErr)) : ?>
+                    <p class="erreur"><?php echo $nomErr;?></p>
+                <?php endif; ?>
+            </article>
 
-        <section class="form-radio">
-            <article class="radio">
-                <input type="radio" id="entree" name="categorie" value="4" checked>
-                <label for="entree">Entrée</label>
+            <section class="form-radio">
+                <article class="radio">
+                    <input type="radio" id="entree" name="categorie" value="4" checked>
+                    <label for="entree">Entrée</label>
+                </article>
+                <article class="radio">
+                    <input type="radio" id="plat" name="categorie" value="5">
+                    <label for="plat">Plat principal</label>
+                </article>
+                <article class="radio">
+                    <input type="radio" id="dessert" name="categorie" value="6">
+                    <label for="dessert">Dessert</label>
+                </article>
+            </section>
+
+            <article class="form-connexion">
+                <label for="prix">Prix en €:</label>
+                <input type="number" id="prix" name="prix" min="0" placeholder="Prix en €">
             </article>
-            <article class="radio">
-                <input type="radio" id="plat" name="categorie" value="5">
-                <label for="plat">Plat principal</label>
+
+            <article class="form-connexion">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Description" required></textarea>
+
+                <?php if (!empty($descriptionErr)) : ?>
+                    <p class="erreur"><?php echo $descriptionErr;?></p>
+                <?php endif; ?>
             </article>
-            <article class="radio">
-                <input type="radio" id="dessert" name="categorie" value="6">
-                <label for="dessert">Dessert</label>
+
+            <article class="form-connexion">
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png, .webp, .svg">
             </article>
+
+            <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
+            value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
+
+            <input type="submit" value="Créer ma recette">
         </section>
-
-        <article class="form-connexion">
-            <label for="prix">Prix en €:</label>
-            <input type="number" id="prix" name="prix" min="0" placeholder="Prix en €">
-        </article>
-
-        <article class="form-connexion">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" placeholder="Description" required></textarea>
-
-            <?php if (!empty($descriptionErr)) : ?>
-                <p class="erreur"><?php echo $descriptionErr;?></p>
-            <?php endif; ?>
-        </article>
-
-        <article class="form-connexion">
-            <label for="photo">Photo:</label>
-            <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png, .webp, .svg">
-        </article>
-
-        <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
-        value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
-
-        <input type="submit" value="Créer ma recette">
-
     </form>
 
     <?php require_once(__DIR__ . "/footer.php"); ?>

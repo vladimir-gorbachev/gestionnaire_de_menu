@@ -1,6 +1,8 @@
 <?php
 session_start();
-require_once(__DIR__ . "/base-donnees.php")
+require_once(__DIR__ . "/base-donnees.php");
+require_once(__DIR__ . "/est-connecte.php");
+require_once(__DIR__ . "/verif-activite.php");
 ?>
 
 <?php
@@ -99,7 +101,7 @@ require_once(__DIR__ . "/base-donnees.php")
             <input type="submit" id="supprimer_profil_bouton" name="supprimer_profil" value="supprimer profil">
                   
         </form>
-        <li class="li-connexion"> <?php echo '<a href="deconnexion.php" >Déconnexion</a>' ?></li>
+        <li class="li-connexion"> <?php echo '<a href="deconnexion.php?deconnexion=1">Déconnexion</a>' ?></li>
 
 
     <?php include 'footer.php'; ?>

@@ -111,18 +111,24 @@ body{
     margin: 16px;
     width: 600px;
 
-    .form-connexion{
+    .form-complet {
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
+    }
+
+    .form-connexion {
+        display: flex;
+        flex-direction: column;
         align-items: flex-start;
+        width: 100%;
     }
 
     .form-radio {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
 
         .radio {
             display: flex;
@@ -130,23 +136,31 @@ body{
             gap: 24px;
         }
     }
-    
+
+    label {
+        display: block;
+        text-align: left;
+        width: 100%;
+    }
+
     input:not([type=radio]), textarea {
-        margin-top: 8px;
+        margin: 8px 0;
         padding: 8px;
         border: 1px solid var(--secondary);
         border-radius: 8px;
         font-size: 16px;
-        outline: none; 
+        outline: none;
         transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        width: 500px;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
     }
-    
+
     input:focus, textarea:focus {
         border-color: var(--tertiary);
         box-shadow: 0 0 8px var(--tertiary);
     }
-    
+
     input:hover {
         color: var(--tertiary);
     }
@@ -160,13 +174,12 @@ body{
         cursor: pointer;
         transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
-    
+
     input[type="submit"]:hover {
         background-color: var(--tertiary);
         color: var(--primary);
     }
 }
-
 
 /* Message d'alerte */
 .alerte-succes {
