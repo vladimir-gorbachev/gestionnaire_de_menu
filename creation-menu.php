@@ -114,57 +114,81 @@ $menus = $stmtMenus->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
+
         <h2>Créez votre menu</h2>
 
-        <label for="nom">Nom du Menu:</label>
-        <input type="text" id="nom" name="nom" required value="<?php echo htmlspecialchars($nom); ?>">
-        <?php if (!empty($nomErr)) echo "<p class='erreur'>$nomErr</p>"; ?>
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label for="nom">Nom du menu:</label>
+                <input type="text" id="nom" name="nom" required placeholder="Nom du menu"
+                value="<?php echo htmlspecialchars($nom); ?>">
+                <?php if (!empty($nomErr)) echo "<p class='erreur'>$nomErr</p>"; ?>
+            </article>
 
-        <label for="entree">Entrée :</label>
-        <select id="entree" name="entree" required>
-            <?php foreach ($entrees as $entree) echo "<option value='{$entree['id']}'>{$entree['nom']}</option>"; ?>
-        </select>
+            <article class="form-connexion">
+                <label for="entree">Entrée :</label>
+                <select id="entree" name="entree" required>
+                    <?php foreach ($entrees as $entree) 
+                    echo "<option value='{$entree['id']}'>{$entree['nom']}</option>"; ?>
+                </select>
+            </article>
 
-        <label for="plat">Plat :</label>
-        <select id="plat" name="plat" required>
-            <?php foreach ($plats as $plat) echo "<option value='{$plat['id']}'>{$plat['nom']}</option>"; ?>
-        </select>
+            <article class="form-connexion">
+                <label for="plat">Plat :</label>
+                <select id="plat" name="plat" required>
+                    <?php foreach ($plats as $plat) 
+                    echo "<option value='{$plat['id']}'>{$plat['nom']}</option>"; ?>
+                </select>
+            </article>
 
-        <label for="dessert">Dessert :</label>
-        <select id="dessert" name="dessert" required>
-            <?php foreach ($desserts as $dessert) echo "<option value='{$dessert['id']}'>{$dessert['nom']}</option>"; ?>
-        </select>
+            <article class="form-connexion">
+                <label for="dessert">Dessert :</label>
+                <select id="dessert" name="dessert" required>
+                    <?php foreach ($desserts as $dessert) 
+                    echo "<option value='{$dessert['id']}'>{$dessert['nom']}</option>"; ?>
+                </select>
+            </article>
 
-        <label for="prix">Prix en €:</label>
-        <input type="number" id="prix" name="prix" min="0" required>
+            <article class="form-connexion">
+                <label for="prix">Prix en €:</label>
+                <input type="number" id="prix" name="prix" min="0" required placeholder="Prix en €">
+            </article>
 
-        <input type="submit" value="Créer mon menu">
+                <input type="submit" value="Créer mon menu">
+        </section>
     </form>
 
-    <h2>Menus créés :</h2>
-    <?php if (!empty($menus)): ?>
-        <div class="onglets">
+    <section class="recettes">
+        <?php if (!empty($menus)): ?>
             <?php foreach ($menus as $menu): ?>
-                <div class="onglet">
+                <article class="recette">
                     <h2><?= htmlspecialchars($menu['nom']) ?></h2>
-                    <p>Entrée<br> <?= htmlspecialchars($menu['entree_nom']) ?></p>
-                    <p>Plat<br> <?= htmlspecialchars($menu['plat_nom']) ?></p>
-                    <p>Dessert<br> <?= htmlspecialchars($menu['dessert_nom']) ?></p>
-                    <p>Prix: <?= htmlspecialchars($menu['prix']) ?> €</p>
+
+                    <p class="plat"><span>Entrée: </span><?= htmlspecialchars($menu['entree_nom']) ?></p>
+
+                    <p class="plat"><span>Plat: </span><?= htmlspecialchars($menu['plat_nom']) ?></p>
+
+                    <p class="plat"><span>Dessert: </span><?= htmlspecialchars($menu['dessert_nom']) ?></p>
+
+                    <p><?= htmlspecialchars($menu['prix']) ?> €</p>
+
+                    <form action="modifier-menu.php" method="GET">
+                        <input type="hidden" name="menu_id" value="<?= $menu['id'] ?>">
+                        <input type="submit" value="Modifier le menu" class="form-get">
+                    </form>
+
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="hidden" name="supprimerMenu" value="<?= $menu['id'] ?>">
-                        <input type="submit" value="Supprimer">
+                        <input type="submit" value="Supprimer le menu" class="supprimer"
+                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce menu ?');">
                     </form>
-                    <form action="modifier-menu.php" method="GET" style="display:inline;">
-                        <input type="hidden" name="menu_id" value="<?= $menu['id'] ?>">
-                        <input type="submit" value="Modifier">
-                    </form>
-                </div>
+                </article>
             <?php endforeach; ?>
-        </div>
-    <?php else: ?>
-        <p>Aucun menu créé pour le moment.</p>
-    <?php endif; ?>
+
+        <?php else: ?>
+            <p>Aucun menu créé pour le moment.</p>
+        <?php endif; ?>
+    </section>
 
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>

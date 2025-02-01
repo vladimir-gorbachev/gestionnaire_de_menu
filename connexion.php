@@ -91,21 +91,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <h2>Connexion à votre compte</h2>
             
-            <article class="form-connexion">
-                <label for="email">Adresse e-mail:</label>
-                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
-                value="<?php echo htmlspecialchars($email);?>">
-            </article>
+            <section class="form-complet">
+                <article class="form-connexion">
+                    <label for="email">Adresse e-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
+                    value="<?php echo htmlspecialchars($email);?>">
+                </article>
 
-            <article class="form-connexion">
-                <label for="mot_de_passe">Mot de passe:</label>
-                <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
-                required>
-            </article>
+                <article class="form-connexion">
+                    <label for="mot_de_passe">Mot de passe:</label>
+                    <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
+                    required>
+                </article>
 
-            <input type="submit" value="Se connecter">
+                <input type="submit" value="Se connecter">
 
-            <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
+                <a href="./creation-compte.php">Pas encore de compte ? C'est par ici !</a>
+            </section>
 
         </form>
 

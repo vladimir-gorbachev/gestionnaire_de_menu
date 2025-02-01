@@ -111,48 +111,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" class="form">
 
         <h2>Créez votre compte</h2>
-        
-        <article class="form-connexion">
-            <label for="email">Adresse e-mail:</label>
-            <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
-            value="<?php echo htmlspecialchars($email);?>">
 
-            <?php if (!empty($emailErr)) : ?>
-                <p class="erreur"><?php echo $emailErr; ?></p>
-            <?php endif; ?>
-        </article>
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label for="email">Adresse e-mail:</label>
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required 
+                value="<?php echo htmlspecialchars($email);?>">
 
-        <article class="form-connexion">
-            <label for="nom">Nom d'utilisateur:</label>
-            <input type="text" id="nom" name="nom" placeholder="Nom d'utilisateur" required 
-            value="<?php echo htmlspecialchars($nom);?>">
+                <?php if (!empty($emailErr)) : ?>
+                    <p class="erreur"><?php echo $emailErr; ?></p>
+                <?php endif; ?>
+            </article>
 
-            <?php if (!empty($nomErr)) : ?>
-                <p class="erreur"><?php echo $nomErr;?></p>
-            <?php endif; ?>
-        </article>
+            <article class="form-connexion">
+                <label for="nom">Nom d'utilisateur:</label>
+                <input type="text" id="nom" name="nom" placeholder="Nom d'utilisateur" required 
+                value="<?php echo htmlspecialchars($nom);?>">
 
-        <article class="form-connexion">
-            <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
-            required>
-            
-            <?php if (!empty($mot_de_passeErr)) : ?>
-                <p class="erreur"><?php echo $mot_de_passeErr;?></p>
-            <?php endif; ?>
-        </article>
+                <?php if (!empty($nomErr)) : ?>
+                    <p class="erreur"><?php echo $nomErr;?></p>
+                <?php endif; ?>
+            </article>
 
-        <article class="form-connexion">
-            <label for="confirmer_mdp">Confirmer le mot de passe:</label>
-            <input type="password" id="confirmer_mdp" name="confirmer_mdp" 
-            placeholder="Confirmer le mot de passe" required>
+            <article class="form-connexion">
+                <label for="mot_de_passe">Mot de passe:</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" 
+                required>
+                
+                <?php if (!empty($mot_de_passeErr)) : ?>
+                    <p class="erreur"><?php echo $mot_de_passeErr;?></p>
+                <?php endif; ?>
+            </article>
 
-            <?php if (!empty($confirmer_mdpErr)) : ?>
-                <p class="erreur"><?php echo $confirmer_mdpErr; ?></p>
-            <?php endif; ?>
-        </article>
+            <article class="form-connexion">
+                <label for="confirmer_mdp">Confirmer le mot de passe:</label>
+                <input type="password" id="confirmer_mdp" name="confirmer_mdp" 
+                placeholder="Confirmer le mot de passe" required>
 
-        <input type="submit" value="Créer le compte">
+                <?php if (!empty($confirmer_mdpErr)) : ?>
+                    <p class="erreur"><?php echo $confirmer_mdpErr; ?></p>
+                <?php endif; ?>
+            </article>
+
+            <input type="submit" value="Créer le compte">
+        </section>
 
     </form>
 

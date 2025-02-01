@@ -95,74 +95,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <h2>Modifiez votre recette</h2>
 
-        <article class="form-connexion">
-            <label for="nom">Nom de la recette:</label>
-            <input type="text" id="nom" name="nom" placeholder="<?php echo $plat["nom"] ?>" 
-            value="<?php echo htmlspecialchars($plat["nom"]); ?>">
-        </article>
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label for="nom">Nom de la recette:</label>
+                <input type="text" id="nom" name="nom" placeholder="<?php echo $plat["nom"] ?>" 
+                value="<?php echo htmlspecialchars($plat["nom"]); ?>">
+            </article>
 
-        <article class="form-connexion">
-            <?php if ($plat["categorie_id"] == 4) : ?>
-                <input type="radio" id="entree" name="categorie" value="4" 
-                <?php echo ($plat["categorie_id"] == 4) ? 'checked' : ''; ?>>
-                <label for="entree">Entrée</label>
-                <input type="radio" id="plat" name="categorie" value="5">
-                <label for="plat">Plat principal</label>
-                <input type="radio" id="dessert" name="categorie" value="6">
-                <label for="dessert">Dessert</label>
-            <?php endif ; ?>
-            <?php if ($plat["categorie_id"] == 5) : ?>
-                <input type="radio" id="entree" name="categorie" value="4">
-                <label for="entree">Entrée</label>
-                <input type="radio" id="plat" name="categorie" value="5" 
-                <?php echo ($plat["categorie_id"] == 5) ? 'checked' : ''; ?>>
-                <label for="plat">Plat principal</label>
-                <input type="radio" id="dessert" name="categorie" value="6">
-                <label for="dessert">Dessert</label>
-            <?php endif ; ?>
-            <?php if ($plat["categorie_id"] == 6) : ?>
-                <input type="radio" id="entree" name="categorie" value="4">
-                <label for="entree">Entrée</label>
-                <input type="radio" id="plat" name="categorie" value="5">
-                <label for="plat">Plat principal</label>
-                <input type="radio" id="dessert" name="categorie" value="6" 
-                <?php echo ($plat["categorie_id"] == 6) ? 'checked' : ''; ?>>
-                <label for="dessert">Dessert</label>
-            <?php endif ; ?>
-        </article>
+            <section class="form-radio">
+                <article class="radio">
+                    <?php if ($plat["categorie_id"] == 4) : ?>
+                        <input type="radio" id="entree" name="categorie" value="4" 
+                        <?php echo ($plat["categorie_id"] == 4) ? 'checked' : ''; ?>>
+                        <label for="entree">Entrée</label>
+                        <input type="radio" id="plat" name="categorie" value="5">
+                        <label for="plat">Plat principal</label>
+                        <input type="radio" id="dessert" name="categorie" value="6">
+                        <label for="dessert">Dessert</label>
+                    <?php endif ; ?>
+                    <?php if ($plat["categorie_id"] == 5) : ?>
+                        <input type="radio" id="entree" name="categorie" value="4">
+                        <label for="entree">Entrée</label>
+                        <input type="radio" id="plat" name="categorie" value="5" 
+                        <?php echo ($plat["categorie_id"] == 5) ? 'checked' : ''; ?>>
+                        <label for="plat">Plat principal</label>
+                        <input type="radio" id="dessert" name="categorie" value="6">
+                        <label for="dessert">Dessert</label>
+                    <?php endif ; ?>
+                    <?php if ($plat["categorie_id"] == 6) : ?>
+                        <input type="radio" id="entree" name="categorie" value="4">
+                        <label for="entree">Entrée</label>
+                        <input type="radio" id="plat" name="categorie" value="5">
+                        <label for="plat">Plat principal</label>
+                        <input type="radio" id="dessert" name="categorie" value="6" 
+                        <?php echo ($plat["categorie_id"] == 6) ? 'checked' : ''; ?>>
+                        <label for="dessert">Dessert</label>
+                    <?php endif ; ?>
+                </article>
+            </section>
 
-        <article class="form-connexion">
-            <label for="prix">Prix en €:</label>
-            <input type="number" id="prix" name="prix" min="0" placeholder="<?php echo $plat["prix"] ?>" 
-            value="<?php echo htmlspecialchars($plat["prix"]); ?>">
-        </article>
+            <article class="form-connexion">
+                <label for="prix">Prix en €:</label>
+                <input type="number" id="prix" name="prix" min="0" placeholder="<?php echo $plat["prix"] ?>" 
+                value="<?php echo htmlspecialchars($plat["prix"]); ?>">
+            </article>
 
-        <article class="form-connexion">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" 
-            placeholder="<?php echo $plat["description"] ?>"><?php 
-            echo htmlspecialchars($plat["description"]); ?></textarea>
-        </article>
+            <article class="form-connexion">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" 
+                placeholder="<?php echo $plat["description"] ?>"><?php 
+                echo htmlspecialchars($plat["description"]); ?></textarea>
+            </article>
 
-        <article class="form-connexion">
-            <label for="photo">Photo:</label>
-            <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png, .webp, .svg">
-        </article>
+            <article class="form-connexion">
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png, .webp, .svg">
+            </article>
 
-        <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
-        value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
+            <input type="hidden" id="utilisateur_id" name="utilisateur_id" 
+            value="<?php echo $_SESSION["utilisateur-connecte"]["id"] ?>">
 
-        <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat_id ?>">
+            <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat_id ?>">
 
-        <input type="submit" value="Modifier ma recette">
+            <input type="submit" value="Modifier ma recette">
+        </section>
+
+        <form action="supprimer-recette.php" method="POST">
+            <input type="hidden" name="plat_id" value="<?php echo $plat_id; ?>">
+            <input type="submit" value="Supprimer ma recette" class="supprimer"
+            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">
+        </form>
 
     </form>
 
-    <form action="supprimer-recette.php" method="POST">
-        <input type="hidden" name="plat_id" value="<?php echo $plat_id; ?>">
-        <input type="submit" value="Supprimer ma recette" 
-        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">
-    </form>
+   
 
     <?php require_once(__DIR__ . "/footer.php"); ?>
 </body>

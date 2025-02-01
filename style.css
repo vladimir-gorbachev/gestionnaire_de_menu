@@ -34,7 +34,7 @@ a {
     font-weight: bold;
 }
 
-/* HEADER */
+/* Header */
 header{
     width: 100%;
     background-color: var(--primary-50);
@@ -56,8 +56,8 @@ header{
         color: var(--secondary);
         font-weight: bold;
         padding: 8px 12px;
-        border: var(--secondary) 1px solid;
-        border-radius: 15px;
+        border: var(--secondary) 2px solid;
+        border-radius: 10px;
         transition: background-color 0.3s ease-in-out;
     }
     
@@ -67,7 +67,7 @@ header{
     }
 }
 
-/* FOOTER */
+/* Footer */
 footer {
     position: relative;
     bottom: 0;
@@ -83,7 +83,7 @@ footer {
       }
 }
 
-/* BODY */
+/* Body */
 body{
     background-image: url('img/fondbody.jpeg');
     background-size: cover; 
@@ -97,7 +97,7 @@ body{
     align-items: center;
 }
 
-/* FORMULAIRE */
+/* Formulaires */
 .form {
     background-color: var(--primary-50);
     display: flex;
@@ -141,10 +141,11 @@ body{
         display: block;
         text-align: left;
         width: 100%;
+        margin-top: 16px;
     }
 
-    input:not([type=radio]), textarea {
-        margin: 8px 0;
+    input:not([type=radio]):not(.supprimer), textarea, select {
+        margin-top: 4px;
         padding: 8px;
         border: 1px solid var(--secondary);
         border-radius: 8px;
@@ -152,20 +153,23 @@ body{
         outline: none;
         transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         width: 100%;
-        max-width: 400px;
+        min-width: 400px;
         box-sizing: border-box;
     }
+    input[type=submit]:not(.supprimer) {
+        margin: 24px 0 16px;
+    }
 
-    input:focus, textarea:focus {
+    input:not(.supprimer):focus, textarea:focus, select:focus {
         border-color: var(--tertiary);
         box-shadow: 0 0 8px var(--tertiary);
     }
 
-    input:hover {
+    input:not(.supprimer):hover {
         color: var(--tertiary);
     }
 
-    input[type="submit"] {
+    input[type="submit"]:not(.supprimer) {
         font-weight: bold;
         background-color: var(--tertiary-25);
         padding: 8px 16px;
@@ -175,13 +179,27 @@ body{
         transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
 
-    input[type="submit"]:hover {
+    input[type="submit"]:not(.supprimer):hover {
         background-color: var(--tertiary);
         color: var(--primary);
     }
 }
 
-/* Message d'alerte */
+.form-get {
+    border: 1px solid var(--secondary);
+    background-color: var(--tertiary-25);
+    border-radius: 5px;
+    padding: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-get:hover {
+    background-color: var(--tertiary);
+    color: var(--primary);
+}
+
+/* Messages d'alerte */
 .alerte-succes {
     width: 50%;
     height: 50px;
@@ -198,51 +216,42 @@ body{
 
 .erreur {
     color: var(--error-);
+    font-weight: bold;
 }
 
-
-
-/* profil _______________________________________________________________________ */ 
-
-
-#options_profil{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-#supprimer_profil_bouton{
-    background:none ;
+.supprimer{
+    background: none;
     width: 300px;
-    height: 40px;
     color: red;
-    border: none;
     justify-content: center;
     align-self: center;
+    cursor: pointer;
+    font-family: "Lato", serif;
+    font-weight: bold;
 }
 
-#supprimer_profil_bouton:hover {
+.supprimer:hover {
     text-decoration: underline;
 }
 
-@media (min-width: 1024px) {
-    form{
-        width: 360px;
-    }
-    
-    input {
-        max-width: 300px;
-    }
-}    
+/* Bouton déconnexion */
+.deconnexion a {
+    display: inline-block;
+    background-color: var(--tertiary-25);
+    color: var(--secondary);
+    font-weight: bold;
+    padding: 8px 12px;
+    border: var(--secondary) 2px solid;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
 
+.deconnexion a:hover {
+    background-color: var(--tertiary);
+    color: var(--primary);
+}
 
-
-  
-  
-
-/* page accueil */
+/* Page accueil */
 .onglets {
     padding: 50px 0;
     display: flex;
@@ -251,31 +260,68 @@ body{
     align-self: center;
     justify-content: space-around;
     gap: 40px;
+
+    .onglet {
+        display: flex;
+        width: 85%;
+        max-width: 400px;
+        overflow: hidden;
+        transform: scale(1); 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .onglet:hover {
+        transform: scale(1.05); 
+    }
+    
+    .onglet img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 }
 
-.onglet {
+/* Page recettes et menu */
+.recettes {
+    margin: 16px 40px;
     display: flex;
-    width: 85%; /* La carte occupe toute la largeur disponible */
-    max-width: 400px; /* Limite la largeur des cartes sur les écrans larges */
-    overflow: hidden;
-    transform: scale(1); /* Échelle initiale */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    flex-flow: wrap row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
 
-.onglet:hover {
-    transform: scale(1.05); /* Agrandissement au survol */
-}
+    .recette {
+        border: 2px solid var(--secondary);
+        border-radius: 15px;
+        background-color: var(--primary-50);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        padding: 16px 32px;
+        max-width: 300px;
+        height: 300px;
+    }
+    h2 {
+        margin-bottom: 16px;
+    }
+    .categorie {
+        font-style: italic;
+    }
+    p {
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    img {
+        margin: 8px 0;
+        font-style: italic;
+        font-size: 10pt;
+    }
+    .plat {
+        font-size: 14pt;
 
-/* Images dans les onglets */
-.onglet img {
-    width: 100%;
-    height: auto; /* Garde les proportions de l'image */
-    display: block; /* Supprime les espaces blancs autour de l'image */
-}
-
-/* Ajout de responsive design (mobile-first) */
-@media (max-width: 600px) {
-    .onglets {
-        flex-direction: row;
+        span {
+            font-style: italic;
+        }
     }
 }

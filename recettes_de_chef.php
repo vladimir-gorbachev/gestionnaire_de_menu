@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once(__DIR__ . "/base-donnees.php");
-require_once(__DIR__ . "/est-connecte.php");
 ?>
 
 <!DOCTYPE html>
@@ -35,29 +34,38 @@ require_once(__DIR__ . "/est-connecte.php");
         $plats = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
 
+    <section class="recettes">
         <?php if (!empty($plats)): ?>
-            <div class="onglets">
-                <?php foreach ($plats as $plat): ?>
-                    <div class="onglet">
-                        <h2><?= htmlspecialchars($plat['nom']) ?></h2>
-                        <p><?= htmlspecialchars($plat['categorie_nom']) ?></p>
-                        <p><?= htmlspecialchars($plat['prix']) ?> €</p>
-                        <!-- <img src="<?= htmlspecialchars($plat['image']) ?>" alt="image de : <?= htmlspecialchars($plat['nom']) ?>"> -->
-                        <p><?= htmlspecialchars($plat['description']) ?></p>
-                        <?php if (isset($_SESSION["utilisateur-connecte"]) && 
-                        isset($_SESSION["utilisateur-connecte"]["id"]) && 
-                        $_SESSION["utilisateur-connecte"]["id"] == $plat["utilisateur_id"]) : ?>
-                            <form action="./modifier-recette.php" method="GET">
-                                <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat["id"] ?>">
-                                <input type="submit" value="Modifier ma recette">
-                            </form>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+            <?php foreach ($plats as $plat): ?>
+                <article class="recette">
+                    <h2><?= htmlspecialchars($plat['nom']) ?></h2>
+
+                    <p class="categorie"><?= htmlspecialchars($plat['categorie_nom']) ?></p>
+
+                    <p><?= htmlspecialchars($plat['prix']) ?> €</p>
+
+                    <img src="<?= htmlspecialchars($plat['image']) ?>" 
+                    alt="image de : <?= htmlspecialchars($plat['nom']) ?>">
+
+                    <p><?= htmlspecialchars($plat['description']) ?></p>
+
+                    <?php if (isset($_SESSION["utilisateur-connecte"]) && 
+                    isset($_SESSION["utilisateur-connecte"]["id"]) && 
+                    $_SESSION["utilisateur-connecte"]["id"] == $plat["utilisateur_id"]) : ?>
+
+                        <form action="./modifier-recette.php" method="GET">
+                            <input type="hidden" id="plat_id" name="plat_id" value="<?php echo $plat["id"] ?>">
+                            <input type="submit" value="Modifier ma recette" class="form-get">
+                        </form>
+                    <?php endif; ?>
+
+                </article>
+            <?php endforeach; ?>
+                
         <?php else: ?>
             <p>Aucun plat disponible pour le moment.</p>
         <?php endif; ?>
+    </section>
 
         <?php include 'footer.php'; ?>
     </body>

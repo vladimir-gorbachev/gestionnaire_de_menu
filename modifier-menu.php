@@ -75,42 +75,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <?php require_once(__DIR__ . "/header.php"); ?>
 
-    <h2>Modifier le menu</h2>
     <form action="" method="POST" class="form">
-        <label for="nom">Nom du menu :</label>
-        <input type="text" id="nom" name="nom" required value="<?= htmlspecialchars($menu['nom']) ?>">
 
-        <label for="entree">Entrée :</label>
-        <select id="entree" name="entree" required>
-            <?php foreach ($entrees as $entree): ?>
-                <option value="<?= $entree['id'] ?>" <?= ($menu['entree_id'] == $entree['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($entree['nom']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <h2>Modifier le menu</h2>
+        
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label for="nom">Nom du menu :</label>
+                <input type="text" id="nom" name="nom" required value="<?= htmlspecialchars($menu['nom']) ?>">
+            </article>
 
-        <label for="plat">Plat :</label>
-        <select id="plat" name="plat" required>
-            <?php foreach ($plats as $plat): ?>
-                <option value="<?= $plat['id'] ?>" <?= ($menu['plat_id'] == $plat['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($plat['nom']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <article class="form-connexion">
+                <label for="entree">Entrée :</label>
+                <select id="entree" name="entree" required>
+                    <?php foreach ($entrees as $entree): ?>
+                        <option value="<?= $entree['id'] ?>" <?= ($menu['entree_id'] == $entree['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($entree['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </article>
 
-        <label for="dessert">Dessert :</label>
-        <select id="dessert" name="dessert" required>
-            <?php foreach ($desserts as $dessert): ?>
-                <option value="<?= $dessert['id'] ?>" <?= ($menu['dessert_id'] == $dessert['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($dessert['nom']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <article class="form-connexion">
+                <label for="plat">Plat :</label>
+                <select id="plat" name="plat" required>
+                    <?php foreach ($plats as $plat): ?>
+                        <option value="<?= $plat['id'] ?>" <?= ($menu['plat_id'] == $plat['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($plat['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </article>
 
-        <label for="prix">Prix :</label>
-        <input type="number" id="prix" name="prix" min="0" required value="<?= htmlspecialchars($menu['prix']) ?>">
+            <article class="form-connexion">
+                <label for="dessert">Dessert :</label>
+                <select id="dessert" name="dessert" required>
+                    <?php foreach ($desserts as $dessert): ?>
+                        <option value="<?= $dessert['id'] ?>" <?= ($menu['dessert_id'] == $dessert['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($dessert['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </article>
 
-        <input type="submit" value="Modifier">
+            <article class="form-connexion">
+                <label for="prix">Prix :</label>
+                <input type="number" id="prix" name="prix" min="0" required 
+                value="<?= htmlspecialchars($menu['prix']) ?>">
+            </article>
+
+            <input type="submit" value="Modifier">
+        </section>
+
     </form>
     
     <?php require_once(__DIR__ . "/footer.php"); ?>

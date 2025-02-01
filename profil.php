@@ -88,21 +88,32 @@ require_once(__DIR__ . "/verif-activite.php");
         </article>
     <?php endif; ?>
 
-    <h1>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h1>
+        <form method="POST" action="profil.php" class="form">
 
-        <form method="POST" action="profil.php" class="form-connexion" class="form">
-            <label>Email :</label>
-            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" readonly required>
+        <h2>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h2>
 
-            <label>Nom d'utilisateur :</label> 
-            <input type="text" name="nom_utilisateur" value="<?= htmlspecialchars($nom_utilisateur) ?>" required>
-            <input type="submit" name="modifier_nom_utilisateur" value="Modifier nom d'utilisateur"> </button> 
-            
-            <input type="submit" id="supprimer_profil_bouton" name="supprimer_profil" value="supprimer profil">
+        <section class="form-complet">
+            <article class="form-connexion">
+                <label>Email :</label>
+                <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" readonly required>
+            </article>
+
+            <article class="form-connexion">
+                <label>Nom d'utilisateur :</label> 
+                <input type="text" name="nom_utilisateur" 
+                value="<?= htmlspecialchars($nom_utilisateur) ?>" required>
+                <input type="submit" name="modifier_nom_utilisateur" 
+                value="Modifier mon nom d'utilisateur"> </button> 
+            </article>
+
+                <input type="submit" class="supprimer" name="supprimerProfil" 
+                value="Supprimer mon profil" 
+                onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil (cette action est irréversible) ?');">
+        </section>
                   
         </form>
-        <li class="li-connexion"> <?php echo '<a href="deconnexion.php?deconnexion=1">Déconnexion</a>' ?></li>
 
+        <p class="deconnexion"> <?php echo '<a href="deconnexion.php?deconnexion=1">Déconnexion</a>' ?></p>
 
     <?php include 'footer.php'; ?>
 </body>
