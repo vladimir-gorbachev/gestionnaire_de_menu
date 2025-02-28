@@ -43,6 +43,7 @@ require_once(__DIR__ . "/verif-activite.php");
     <?php endif; ?>
 
     <section class="onglets">
+        <h1></h1>
         <a href="recettes_de_chef.php" class="onglet">
             <img src="img/ONGLET DECOUVREZ.png" alt="Découvrez nos recettes de Chef.fes">
         </a>
