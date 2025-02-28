@@ -38,7 +38,7 @@ require_once(__DIR__ . "/base-donnees.php");
         <?php if (!empty($plats)): ?>
             <?php foreach ($plats as $plat): ?>
                 <article class="recette">
-                    <h2><?= htmlspecialchars($plat['nom']) ?></h2>
+                    <h1><?= htmlspecialchars($plat['nom']) ?></h1>
 
                     <p class="categorie"><?= htmlspecialchars($plat['categorie_nom']) ?></p>
 

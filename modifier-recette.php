@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="modifier-recette.php?plat_id=<?php echo $plat_id ?>" method="POST" 
     enctype="multipart/form-data" class="form">
 
-        <h2>Modifiez votre recette</h2>
+        <h1>Modifiez votre recette</h1>
 
         <section class="form-complet">
             <article class="form-connexion">

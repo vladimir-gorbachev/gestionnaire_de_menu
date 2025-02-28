@@ -115,7 +115,7 @@ $menus = $stmtMenus->fetchAll(PDO::FETCH_ASSOC);
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
 
-        <h2>Créez votre menu</h2>
+        <h1>Créez votre menu</h1>
 
         <section class="form-complet">
             <article class="form-connexion">

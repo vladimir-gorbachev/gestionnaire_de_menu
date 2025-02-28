@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <p class="erreur"><?php echo $loginErr; ?></p>
 
-            <h2>Connexion à votre compte</h2>
+            <h1>Connexion à votre compte</h1>
             
             <section class="form-complet">
                 <article class="form-connexion">

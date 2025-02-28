@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form action="" method="POST" class="form">
 
-        <h2>Modifier le menu</h2>
+        <h1>Modifier le menu</h1>
         
         <section class="form-complet">
             <article class="form-connexion">

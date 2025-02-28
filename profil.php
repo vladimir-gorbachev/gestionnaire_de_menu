@@ -90,7 +90,7 @@ require_once(__DIR__ . "/verif-activite.php");
 
         <form method="POST" action="profil.php" class="form">
 
-        <h2>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h2>
+        <h1>Profil de <?= htmlspecialchars($nom_utilisateur) ?></h1>
 
         <section class="form-complet">
             <article class="form-connexion">

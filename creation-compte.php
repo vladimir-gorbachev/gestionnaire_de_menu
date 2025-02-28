@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" class="form">
 
-        <h2>Créez votre compte</h2>
+        <h1>Créez votre compte</h1>
 
         <section class="form-complet">
             <article class="form-connexion">

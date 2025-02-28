@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" 
     enctype="multipart/form-data" class="form">
 
-        <h2>Créez votre recette</h2>
+        <h1>Créez votre recette</h1>
 
         <section class="form-complet">
             <article class="form-connexion">
